@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:vehicle/repository/rest_client.dart';
 
-void main() {
+import 'config/di.dart';
+
+void main() async {
+  await dotenv.load(fileName: ".env");
+  setupGetIt();
+  getIt<RestClient>();
   runApp(const MyApp());
 }
 
