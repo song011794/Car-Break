@@ -13,7 +13,6 @@ class HomeController extends GetxController {
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
 
-  // RxSet<Marker> markers = RxSet();
   List<Marker> allMarkers = <Marker>[].obs;
 
   @override
@@ -38,7 +37,7 @@ class HomeController extends GetxController {
     });
   }
 
-  findByCoordinate(LatLngBounds latLngBounds) async {
+  void findByCoordinate(LatLngBounds latLngBounds) async {
     allMarkers.clear();
 
     final res = await homeRepository.findByCoordinate({
@@ -60,11 +59,20 @@ class HomeController extends GetxController {
     for (CoordinateModel coordinateModel in dataList) {
       tempMarker.add(Marker(
           markerId: MarkerId(coordinateModel.prkplceNo),
-          position: LatLng(
-               double.parse(coordinateModel.latitude ?? '0'), double.parse(coordinateModel.longitude ?? '0'))));
+          position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
+              double.parse(coordinateModel.longitude ?? '0'))));
     }
 
     allMarkers.addAll(tempMarker);
-    print(allMarkers);
+  }
+
+  void goToCurrentPosition() {
+    mapController.future.then((mapController) async {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low);
+
+      await mapController.animateCamera(CameraUpdate.newLatLng(
+          LatLng(position.latitude, position.longitude)));
+    });
   }
 }
