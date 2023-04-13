@@ -30,9 +30,8 @@ class HomeScreen extends GetView<HomeController> {
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController mapController) {
           controller.mapController.complete(mapController);
-
-          // _mapController.complete(controller);
         },
+        onCameraIdle: controller.onCameraIdle,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,
@@ -43,7 +42,8 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Future<void> _goToTheLake() async {
-    final GoogleMapController mapController = await controller.mapController.future;
+    final GoogleMapController mapController =
+        await controller.mapController.future;
     mapController.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }

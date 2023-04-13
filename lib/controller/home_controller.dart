@@ -23,8 +23,12 @@ class HomeController extends GetxController {
           desiredAccuracy: LocationAccuracy.low);
 
       await mapController.animateCamera(CameraUpdate.newLatLng(
-          LatLng(position.latitude, position.longitude)));
+          LatLng(position.latitude, position.longitude)));    
+    });
+  }
 
+  void onCameraIdle(){
+     mapController.future.then((mapController) async {                  
       LatLngBounds latLngBounds = await mapController.getVisibleRegion();
 
       findByCoordinate(latLngBounds);
@@ -34,12 +38,12 @@ class HomeController extends GetxController {
   findByCoordinate(LatLngBounds latLngBounds) async {
     final res = await homeRepository.findByCoordinate({
       'latitude_bound': [
-        latLngBounds.southwest.latitude,
-        latLngBounds.northeast.latitude
+        latLngBounds.southwest.latitude.abs(),
+        latLngBounds.northeast.latitude.abs()
       ],
       'longitude_bound': [
-        latLngBounds.southwest.longitude,
-        latLngBounds.northeast.longitude
+        latLngBounds.southwest.longitude.abs(),
+        latLngBounds.northeast.longitude.abs()
       ]
     });
 
