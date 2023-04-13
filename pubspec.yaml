@@ -39,6 +39,8 @@ dependencies:
   get_it: ^7.2.0
   dio: ^5.1.1
   flutter_dotenv: ^5.0.2
+  get: ^4.6.5
+  google_maps_flutter: ^2.2.5
 
 dev_dependencies:
   flutter_test:

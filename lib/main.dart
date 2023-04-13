@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:vehicle/repository/rest_client.dart';
+import 'package:vehicle/screen/home_screen.dart';
 
 import 'config/di.dart';
 
@@ -8,7 +10,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   setupGetIt();
   getIt<RestClient>();
-  runApp(const MyApp());
+  runApp(const GetMaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -66,6 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+
+    Get.to(HomeScreen());
   }
 
   @override
@@ -120,27 +124,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-// import 'package:mockito/annotations.dart';
-// import 'package:mockito/mockito.dart';
-
-// // Annotation which generates the cat.mocks.dart library and the MockCat class.
-// @GenerateNiceMocks([MockSpec<Cat>()])
-// import 'cat.mocks.dart';
-
-// // Real class
-// class Cat {
-//   String sound() => "Meow";
-//   bool eatFood(String food, {bool? hungry}) => true;
-//   Future<void> chew() async => print("Chewing...");
-//   int walk(List<String> places) => 7;
-//   void sleep() {}
-//   void hunt(String place, String prey) {}
-//   int lives = 9;
-// }
-
-// void main() {
-//   // Create mock object.
-//   var cat = MockCat();
-// }
