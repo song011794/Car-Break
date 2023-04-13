@@ -9,13 +9,16 @@ class HomeScreen extends GetView<HomeController> {
   static const CameraPosition _seoulCitiHall = CameraPosition(
     target: LatLng(37.5664, 126.9779),
     zoom: 14.4746,
-  );  
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Obx(
         () => GoogleMap(
+            zoomControlsEnabled: false,
+            minMaxZoomPreference: const MinMaxZoomPreference(12, 15),
             mapType: MapType.normal,
             initialCameraPosition: _seoulCitiHall,
             onMapCreated: (GoogleMapController mapController) =>
@@ -28,5 +31,5 @@ class HomeScreen extends GetView<HomeController> {
         child: const Icon(Icons.location_searching),
       ),
     );
-  }  
+  }
 }
