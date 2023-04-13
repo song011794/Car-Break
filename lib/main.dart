@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:vehicle/repository/rest_client.dart';
+import 'package:vehicle/controller/home_controller.dart';
+import 'package:vehicle/repository/home_repository.dart';
 import 'package:vehicle/screen/home_screen.dart';
-
-import 'config/di.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
-  setupGetIt();
-  getIt<RestClient>();
-  runApp(const GetMaterialApp(home: MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,21 +16,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return GetMaterialApp(
+      home: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => const MyHomePage(
+            title: '',
+          ),
+        ),
+        GetPage(name: '/home', page: () => const HomeScreen(), bindings: [
+          BindingsBuilder<HomeController>(() {
+            Get.lazyPut(() => HomeController());
+          }),
+          BindingsBuilder<HomeRepository>(() {
+            Get.lazyPut(() => HomeRepository());
+          })
+        ]),
+      ],
     );
   }
 }
@@ -69,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
 
-    Get.to(HomeScreen());
+    // Get.to(HomeScreen());
+    Get.toNamed('/home');
   }
 
   @override
