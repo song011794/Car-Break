@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/coordinate_model.dart';
@@ -17,16 +17,35 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
 
-    findByCoordinate();
+    mapController.future.then((mapController) async {
+      await Geolocator.requestPermission();
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low);
+
+      await mapController.animateCamera(CameraUpdate.newLatLng(
+          LatLng(position.latitude, position.longitude)));
+
+      LatLngBounds latLngBounds = await mapController.getVisibleRegion();
+
+      findByCoordinate(latLngBounds);
+    });
   }
 
-  findByCoordinate() async {
+  findByCoordinate(LatLngBounds latLngBounds) async {
     final res = await homeRepository.findByCoordinate({
-      'latitude_bound': [36.015056, 37.1241231],
-      'longitude_bound': [127.394592, 128.34234]
+      'latitude_bound': [
+        latLngBounds.southwest.latitude,
+        latLngBounds.northeast.latitude
+      ],
+      'longitude_bound': [
+        latLngBounds.southwest.longitude,
+        latLngBounds.northeast.longitude
+      ]
     });
 
     final dataList =
         res.body.map((data) => ResponseCoordinateModel.fromJson(data)).toList();
+
+    print(dataList);
   }
 }
