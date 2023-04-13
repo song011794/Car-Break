@@ -5,23 +5,9 @@ part 'coordinate_model.freezed.dart';
 part 'coordinate_model.g.dart';
 
 
-@freezed
-class RequestCoordinateModel with _$RequestCoordinateModel {
-  /// 좌표 Bound 범위 내 데이터 요청 </br>
-  /// latitude_bound : 주차장관리번호 </br>
-  /// longitude_bound : 소재지도로명주소
-  const factory RequestCoordinateModel(
-      {required List<double> latitude_bound,
-      required List<double> longitude_bound,
-    }) = _RequestCoordinateModel;
-
-  factory RequestCoordinateModel.fromJson(Map<String, Object?> json) =>
-      _$RequestCoordinateModelFromJson(json);
-}
-
 
 @freezed
-class ResponseCoordinateModel with _$ResponseCoordinateModel {
+class CoordinateModel with _$CoordinateModel {
   /// 좌표 Bound 범위 내 데이터 결과 </br>
   /// prkplceNo : 주차장관리번호 </br>
   /// rdnmadr : 소재지도로명주소 </br>
@@ -40,7 +26,7 @@ class ResponseCoordinateModel with _$ResponseCoordinateModel {
   /// addunitTime : 주차단위시간 </br>
   /// addunitCharge : 주차단위요금 </br>
   /// metpay : 결제방법
-  const factory ResponseCoordinateModel(
+  const factory CoordinateModel(
       {required String prkplceNo,
       required String? rdnmadr,
       required String? lnmadr,
@@ -57,8 +43,11 @@ class ResponseCoordinateModel with _$ResponseCoordinateModel {
       required String? basicCharge,
       required String? addunitTime,
       required String? addunitCharge,
-      required String? metpay}) = _ResponseCoordinateModel;
+      required String? metpay,
+      required String? latitude,
+      required String? longitude,
+      }) = _CoordinateModel;
 
-  factory ResponseCoordinateModel.fromJson(Map<String, Object?> json) =>
-      _$ResponseCoordinateModelFromJson(json);
+  factory CoordinateModel.fromJson(Map<String, Object?> json) =>
+      _$CoordinateModelFromJson(json);
 }

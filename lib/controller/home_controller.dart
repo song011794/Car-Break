@@ -13,6 +13,9 @@ class HomeController extends GetxController {
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
 
+  // RxSet<Marker> markers = RxSet();
+  List<Marker> allMarkers = <Marker>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -23,12 +26,12 @@ class HomeController extends GetxController {
           desiredAccuracy: LocationAccuracy.low);
 
       await mapController.animateCamera(CameraUpdate.newLatLng(
-          LatLng(position.latitude, position.longitude)));    
+          LatLng(position.latitude, position.longitude)));
     });
   }
 
-  void onCameraIdle(){
-     mapController.future.then((mapController) async {                  
+  void onCameraIdle() {
+    mapController.future.then((mapController) async {
       LatLngBounds latLngBounds = await mapController.getVisibleRegion();
 
       findByCoordinate(latLngBounds);
@@ -36,6 +39,8 @@ class HomeController extends GetxController {
   }
 
   findByCoordinate(LatLngBounds latLngBounds) async {
+    allMarkers.clear();
+
     final res = await homeRepository.findByCoordinate({
       'latitude_bound': [
         latLngBounds.southwest.latitude.abs(),
@@ -48,8 +53,18 @@ class HomeController extends GetxController {
     });
 
     final dataList =
-        res.body.map((data) => ResponseCoordinateModel.fromJson(data)).toList();
+        res.body.map((data) => CoordinateModel.fromJson(data)).toList();
 
-    print(dataList);
+    List<Marker> tempMarker = [];
+
+    for (CoordinateModel coordinateModel in dataList) {
+      tempMarker.add(Marker(
+          markerId: MarkerId(coordinateModel.prkplceNo),
+          position: LatLng(
+               double.parse(coordinateModel.latitude ?? '0'), double.parse(coordinateModel.longitude ?? '0'))));
+    }
+
+    allMarkers.addAll(tempMarker);
+    print(allMarkers);
   }
 }

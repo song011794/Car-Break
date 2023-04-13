@@ -14,202 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-RequestCoordinateModel _$RequestCoordinateModelFromJson(
-    Map<String, dynamic> json) {
-  return _RequestCoordinateModel.fromJson(json);
+CoordinateModel _$CoordinateModelFromJson(Map<String, dynamic> json) {
+  return _CoordinateModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$RequestCoordinateModel {
-  List<double> get latitude_bound => throw _privateConstructorUsedError;
-  List<double> get longitude_bound => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $RequestCoordinateModelCopyWith<RequestCoordinateModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $RequestCoordinateModelCopyWith<$Res> {
-  factory $RequestCoordinateModelCopyWith(RequestCoordinateModel value,
-          $Res Function(RequestCoordinateModel) then) =
-      _$RequestCoordinateModelCopyWithImpl<$Res, RequestCoordinateModel>;
-  @useResult
-  $Res call({List<double> latitude_bound, List<double> longitude_bound});
-}
-
-/// @nodoc
-class _$RequestCoordinateModelCopyWithImpl<$Res,
-        $Val extends RequestCoordinateModel>
-    implements $RequestCoordinateModelCopyWith<$Res> {
-  _$RequestCoordinateModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? latitude_bound = null,
-    Object? longitude_bound = null,
-  }) {
-    return _then(_value.copyWith(
-      latitude_bound: null == latitude_bound
-          ? _value.latitude_bound
-          : latitude_bound // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-      longitude_bound: null == longitude_bound
-          ? _value.longitude_bound
-          : longitude_bound // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_RequestCoordinateModelCopyWith<$Res>
-    implements $RequestCoordinateModelCopyWith<$Res> {
-  factory _$$_RequestCoordinateModelCopyWith(_$_RequestCoordinateModel value,
-          $Res Function(_$_RequestCoordinateModel) then) =
-      __$$_RequestCoordinateModelCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({List<double> latitude_bound, List<double> longitude_bound});
-}
-
-/// @nodoc
-class __$$_RequestCoordinateModelCopyWithImpl<$Res>
-    extends _$RequestCoordinateModelCopyWithImpl<$Res,
-        _$_RequestCoordinateModel>
-    implements _$$_RequestCoordinateModelCopyWith<$Res> {
-  __$$_RequestCoordinateModelCopyWithImpl(_$_RequestCoordinateModel _value,
-      $Res Function(_$_RequestCoordinateModel) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? latitude_bound = null,
-    Object? longitude_bound = null,
-  }) {
-    return _then(_$_RequestCoordinateModel(
-      latitude_bound: null == latitude_bound
-          ? _value._latitude_bound
-          : latitude_bound // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-      longitude_bound: null == longitude_bound
-          ? _value._longitude_bound
-          : longitude_bound // ignore: cast_nullable_to_non_nullable
-              as List<double>,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_RequestCoordinateModel
-    with DiagnosticableTreeMixin
-    implements _RequestCoordinateModel {
-  const _$_RequestCoordinateModel(
-      {required final List<double> latitude_bound,
-      required final List<double> longitude_bound})
-      : _latitude_bound = latitude_bound,
-        _longitude_bound = longitude_bound;
-
-  factory _$_RequestCoordinateModel.fromJson(Map<String, dynamic> json) =>
-      _$$_RequestCoordinateModelFromJson(json);
-
-  final List<double> _latitude_bound;
-  @override
-  List<double> get latitude_bound {
-    if (_latitude_bound is EqualUnmodifiableListView) return _latitude_bound;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_latitude_bound);
-  }
-
-  final List<double> _longitude_bound;
-  @override
-  List<double> get longitude_bound {
-    if (_longitude_bound is EqualUnmodifiableListView) return _longitude_bound;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_longitude_bound);
-  }
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RequestCoordinateModel(latitude_bound: $latitude_bound, longitude_bound: $longitude_bound)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'RequestCoordinateModel'))
-      ..add(DiagnosticsProperty('latitude_bound', latitude_bound))
-      ..add(DiagnosticsProperty('longitude_bound', longitude_bound));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_RequestCoordinateModel &&
-            const DeepCollectionEquality()
-                .equals(other._latitude_bound, _latitude_bound) &&
-            const DeepCollectionEquality()
-                .equals(other._longitude_bound, _longitude_bound));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_latitude_bound),
-      const DeepCollectionEquality().hash(_longitude_bound));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_RequestCoordinateModelCopyWith<_$_RequestCoordinateModel> get copyWith =>
-      __$$_RequestCoordinateModelCopyWithImpl<_$_RequestCoordinateModel>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_RequestCoordinateModelToJson(
-      this,
-    );
-  }
-}
-
-abstract class _RequestCoordinateModel implements RequestCoordinateModel {
-  const factory _RequestCoordinateModel(
-      {required final List<double> latitude_bound,
-      required final List<double> longitude_bound}) = _$_RequestCoordinateModel;
-
-  factory _RequestCoordinateModel.fromJson(Map<String, dynamic> json) =
-      _$_RequestCoordinateModel.fromJson;
-
-  @override
-  List<double> get latitude_bound;
-  @override
-  List<double> get longitude_bound;
-  @override
-  @JsonKey(ignore: true)
-  _$$_RequestCoordinateModelCopyWith<_$_RequestCoordinateModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ResponseCoordinateModel _$ResponseCoordinateModelFromJson(
-    Map<String, dynamic> json) {
-  return _ResponseCoordinateModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ResponseCoordinateModel {
+mixin _$CoordinateModel {
   String get prkplceNo => throw _privateConstructorUsedError;
   String? get rdnmadr => throw _privateConstructorUsedError;
   String? get lnmadr => throw _privateConstructorUsedError;
@@ -227,18 +37,20 @@ mixin _$ResponseCoordinateModel {
   String? get addunitTime => throw _privateConstructorUsedError;
   String? get addunitCharge => throw _privateConstructorUsedError;
   String? get metpay => throw _privateConstructorUsedError;
+  String? get latitude => throw _privateConstructorUsedError;
+  String? get longitude => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ResponseCoordinateModelCopyWith<ResponseCoordinateModel> get copyWith =>
+  $CoordinateModelCopyWith<CoordinateModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ResponseCoordinateModelCopyWith<$Res> {
-  factory $ResponseCoordinateModelCopyWith(ResponseCoordinateModel value,
-          $Res Function(ResponseCoordinateModel) then) =
-      _$ResponseCoordinateModelCopyWithImpl<$Res, ResponseCoordinateModel>;
+abstract class $CoordinateModelCopyWith<$Res> {
+  factory $CoordinateModelCopyWith(
+          CoordinateModel value, $Res Function(CoordinateModel) then) =
+      _$CoordinateModelCopyWithImpl<$Res, CoordinateModel>;
   @useResult
   $Res call(
       {String prkplceNo,
@@ -257,14 +69,15 @@ abstract class $ResponseCoordinateModelCopyWith<$Res> {
       String? basicCharge,
       String? addunitTime,
       String? addunitCharge,
-      String? metpay});
+      String? metpay,
+      String? latitude,
+      String? longitude});
 }
 
 /// @nodoc
-class _$ResponseCoordinateModelCopyWithImpl<$Res,
-        $Val extends ResponseCoordinateModel>
-    implements $ResponseCoordinateModelCopyWith<$Res> {
-  _$ResponseCoordinateModelCopyWithImpl(this._value, this._then);
+class _$CoordinateModelCopyWithImpl<$Res, $Val extends CoordinateModel>
+    implements $CoordinateModelCopyWith<$Res> {
+  _$CoordinateModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -291,6 +104,8 @@ class _$ResponseCoordinateModelCopyWithImpl<$Res,
     Object? addunitTime = freezed,
     Object? addunitCharge = freezed,
     Object? metpay = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
   }) {
     return _then(_value.copyWith(
       prkplceNo: null == prkplceNo
@@ -361,16 +176,24 @@ class _$ResponseCoordinateModelCopyWithImpl<$Res,
           ? _value.metpay
           : metpay // ignore: cast_nullable_to_non_nullable
               as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as String?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_ResponseCoordinateModelCopyWith<$Res>
-    implements $ResponseCoordinateModelCopyWith<$Res> {
-  factory _$$_ResponseCoordinateModelCopyWith(_$_ResponseCoordinateModel value,
-          $Res Function(_$_ResponseCoordinateModel) then) =
-      __$$_ResponseCoordinateModelCopyWithImpl<$Res>;
+abstract class _$$_CoordinateModelCopyWith<$Res>
+    implements $CoordinateModelCopyWith<$Res> {
+  factory _$$_CoordinateModelCopyWith(
+          _$_CoordinateModel value, $Res Function(_$_CoordinateModel) then) =
+      __$$_CoordinateModelCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -390,16 +213,17 @@ abstract class _$$_ResponseCoordinateModelCopyWith<$Res>
       String? basicCharge,
       String? addunitTime,
       String? addunitCharge,
-      String? metpay});
+      String? metpay,
+      String? latitude,
+      String? longitude});
 }
 
 /// @nodoc
-class __$$_ResponseCoordinateModelCopyWithImpl<$Res>
-    extends _$ResponseCoordinateModelCopyWithImpl<$Res,
-        _$_ResponseCoordinateModel>
-    implements _$$_ResponseCoordinateModelCopyWith<$Res> {
-  __$$_ResponseCoordinateModelCopyWithImpl(_$_ResponseCoordinateModel _value,
-      $Res Function(_$_ResponseCoordinateModel) _then)
+class __$$_CoordinateModelCopyWithImpl<$Res>
+    extends _$CoordinateModelCopyWithImpl<$Res, _$_CoordinateModel>
+    implements _$$_CoordinateModelCopyWith<$Res> {
+  __$$_CoordinateModelCopyWithImpl(
+      _$_CoordinateModel _value, $Res Function(_$_CoordinateModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -422,8 +246,10 @@ class __$$_ResponseCoordinateModelCopyWithImpl<$Res>
     Object? addunitTime = freezed,
     Object? addunitCharge = freezed,
     Object? metpay = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
   }) {
-    return _then(_$_ResponseCoordinateModel(
+    return _then(_$_CoordinateModel(
       prkplceNo: null == prkplceNo
           ? _value.prkplceNo
           : prkplceNo // ignore: cast_nullable_to_non_nullable
@@ -492,16 +318,24 @@ class __$$_ResponseCoordinateModelCopyWithImpl<$Res>
           ? _value.metpay
           : metpay // ignore: cast_nullable_to_non_nullable
               as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as String?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_ResponseCoordinateModel
+class _$_CoordinateModel
     with DiagnosticableTreeMixin
-    implements _ResponseCoordinateModel {
-  const _$_ResponseCoordinateModel(
+    implements _CoordinateModel {
+  const _$_CoordinateModel(
       {required this.prkplceNo,
       required this.rdnmadr,
       required this.lnmadr,
@@ -518,10 +352,12 @@ class _$_ResponseCoordinateModel
       required this.basicCharge,
       required this.addunitTime,
       required this.addunitCharge,
-      required this.metpay});
+      required this.metpay,
+      required this.latitude,
+      required this.longitude});
 
-  factory _$_ResponseCoordinateModel.fromJson(Map<String, dynamic> json) =>
-      _$$_ResponseCoordinateModelFromJson(json);
+  factory _$_CoordinateModel.fromJson(Map<String, dynamic> json) =>
+      _$$_CoordinateModelFromJson(json);
 
   @override
   final String prkplceNo;
@@ -557,17 +393,21 @@ class _$_ResponseCoordinateModel
   final String? addunitCharge;
   @override
   final String? metpay;
+  @override
+  final String? latitude;
+  @override
+  final String? longitude;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ResponseCoordinateModel(prkplceNo: $prkplceNo, rdnmadr: $rdnmadr, lnmadr: $lnmadr, enforceSe: $enforceSe, operDay: $operDay, weekdayOperOpenHhmm: $weekdayOperOpenHhmm, weekdayOperColseHhmm: $weekdayOperColseHhmm, satOperOperOpenHhmm: $satOperOperOpenHhmm, satOperCloseHhmm: $satOperCloseHhmm, holidayOperOpenHhmm: $holidayOperOpenHhmm, holidayCloseOpenHhmm: $holidayCloseOpenHhmm, parkingchrgeInfo: $parkingchrgeInfo, basicTime: $basicTime, basicCharge: $basicCharge, addunitTime: $addunitTime, addunitCharge: $addunitCharge, metpay: $metpay)';
+    return 'CoordinateModel(prkplceNo: $prkplceNo, rdnmadr: $rdnmadr, lnmadr: $lnmadr, enforceSe: $enforceSe, operDay: $operDay, weekdayOperOpenHhmm: $weekdayOperOpenHhmm, weekdayOperColseHhmm: $weekdayOperColseHhmm, satOperOperOpenHhmm: $satOperOperOpenHhmm, satOperCloseHhmm: $satOperCloseHhmm, holidayOperOpenHhmm: $holidayOperOpenHhmm, holidayCloseOpenHhmm: $holidayCloseOpenHhmm, parkingchrgeInfo: $parkingchrgeInfo, basicTime: $basicTime, basicCharge: $basicCharge, addunitTime: $addunitTime, addunitCharge: $addunitCharge, metpay: $metpay, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'ResponseCoordinateModel'))
+      ..add(DiagnosticsProperty('type', 'CoordinateModel'))
       ..add(DiagnosticsProperty('prkplceNo', prkplceNo))
       ..add(DiagnosticsProperty('rdnmadr', rdnmadr))
       ..add(DiagnosticsProperty('lnmadr', lnmadr))
@@ -584,14 +424,16 @@ class _$_ResponseCoordinateModel
       ..add(DiagnosticsProperty('basicCharge', basicCharge))
       ..add(DiagnosticsProperty('addunitTime', addunitTime))
       ..add(DiagnosticsProperty('addunitCharge', addunitCharge))
-      ..add(DiagnosticsProperty('metpay', metpay));
+      ..add(DiagnosticsProperty('metpay', metpay))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ResponseCoordinateModel &&
+            other is _$_CoordinateModel &&
             (identical(other.prkplceNo, prkplceNo) ||
                 other.prkplceNo == prkplceNo) &&
             (identical(other.rdnmadr, rdnmadr) || other.rdnmadr == rdnmadr) &&
@@ -621,49 +463,54 @@ class _$_ResponseCoordinateModel
                 other.addunitTime == addunitTime) &&
             (identical(other.addunitCharge, addunitCharge) ||
                 other.addunitCharge == addunitCharge) &&
-            (identical(other.metpay, metpay) || other.metpay == metpay));
+            (identical(other.metpay, metpay) || other.metpay == metpay) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      prkplceNo,
-      rdnmadr,
-      lnmadr,
-      enforceSe,
-      operDay,
-      weekdayOperOpenHhmm,
-      weekdayOperColseHhmm,
-      satOperOperOpenHhmm,
-      satOperCloseHhmm,
-      holidayOperOpenHhmm,
-      holidayCloseOpenHhmm,
-      parkingchrgeInfo,
-      basicTime,
-      basicCharge,
-      addunitTime,
-      addunitCharge,
-      metpay);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        prkplceNo,
+        rdnmadr,
+        lnmadr,
+        enforceSe,
+        operDay,
+        weekdayOperOpenHhmm,
+        weekdayOperColseHhmm,
+        satOperOperOpenHhmm,
+        satOperCloseHhmm,
+        holidayOperOpenHhmm,
+        holidayCloseOpenHhmm,
+        parkingchrgeInfo,
+        basicTime,
+        basicCharge,
+        addunitTime,
+        addunitCharge,
+        metpay,
+        latitude,
+        longitude
+      ]);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ResponseCoordinateModelCopyWith<_$_ResponseCoordinateModel>
-      get copyWith =>
-          __$$_ResponseCoordinateModelCopyWithImpl<_$_ResponseCoordinateModel>(
-              this, _$identity);
+  _$$_CoordinateModelCopyWith<_$_CoordinateModel> get copyWith =>
+      __$$_CoordinateModelCopyWithImpl<_$_CoordinateModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ResponseCoordinateModelToJson(
+    return _$$_CoordinateModelToJson(
       this,
     );
   }
 }
 
-abstract class _ResponseCoordinateModel implements ResponseCoordinateModel {
-  const factory _ResponseCoordinateModel(
+abstract class _CoordinateModel implements CoordinateModel {
+  const factory _CoordinateModel(
       {required final String prkplceNo,
       required final String? rdnmadr,
       required final String? lnmadr,
@@ -680,10 +527,12 @@ abstract class _ResponseCoordinateModel implements ResponseCoordinateModel {
       required final String? basicCharge,
       required final String? addunitTime,
       required final String? addunitCharge,
-      required final String? metpay}) = _$_ResponseCoordinateModel;
+      required final String? metpay,
+      required final String? latitude,
+      required final String? longitude}) = _$_CoordinateModel;
 
-  factory _ResponseCoordinateModel.fromJson(Map<String, dynamic> json) =
-      _$_ResponseCoordinateModel.fromJson;
+  factory _CoordinateModel.fromJson(Map<String, dynamic> json) =
+      _$_CoordinateModel.fromJson;
 
   @override
   String get prkplceNo;
@@ -720,7 +569,11 @@ abstract class _ResponseCoordinateModel implements ResponseCoordinateModel {
   @override
   String? get metpay;
   @override
+  String? get latitude;
+  @override
+  String? get longitude;
+  @override
   @JsonKey(ignore: true)
-  _$$_ResponseCoordinateModelCopyWith<_$_ResponseCoordinateModel>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_CoordinateModelCopyWith<_$_CoordinateModel> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -8,9 +8,6 @@ import 'package:vehicle/controller/home_controller.dart';
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({super.key});
 
-  // final Completer<GoogleMapController> _mapController =
-  //     Completer<GoogleMapController>();
-
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -25,13 +22,14 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController mapController) {
-          controller.mapController.complete(mapController);
-        },
-        onCameraIdle: controller.onCameraIdle,
+      body: Obx(
+        () => GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController mapController) =>
+                controller.mapController.complete(mapController),
+            onCameraIdle: controller.onCameraIdle,
+            markers: Set<Marker>.of(controller.allMarkers)),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _goToTheLake,

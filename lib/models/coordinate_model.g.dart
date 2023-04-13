@@ -6,27 +6,8 @@ part of 'coordinate_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_RequestCoordinateModel _$$_RequestCoordinateModelFromJson(
-        Map<String, dynamic> json) =>
-    _$_RequestCoordinateModel(
-      latitude_bound: (json['latitude_bound'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
-          .toList(),
-      longitude_bound: (json['longitude_bound'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
-          .toList(),
-    );
-
-Map<String, dynamic> _$$_RequestCoordinateModelToJson(
-        _$_RequestCoordinateModel instance) =>
-    <String, dynamic>{
-      'latitude_bound': instance.latitude_bound,
-      'longitude_bound': instance.longitude_bound,
-    };
-
-_$_ResponseCoordinateModel _$$_ResponseCoordinateModelFromJson(
-        Map<String, dynamic> json) =>
-    _$_ResponseCoordinateModel(
+_$_CoordinateModel _$$_CoordinateModelFromJson(Map<String, dynamic> json) =>
+    _$_CoordinateModel(
       prkplceNo: json['prkplceNo'] as String,
       rdnmadr: json['rdnmadr'] as String?,
       lnmadr: json['lnmadr'] as String?,
@@ -44,10 +25,11 @@ _$_ResponseCoordinateModel _$$_ResponseCoordinateModelFromJson(
       addunitTime: json['addunitTime'] as String?,
       addunitCharge: json['addunitCharge'] as String?,
       metpay: json['metpay'] as String?,
+      latitude: json['latitude'] as String?,
+      longitude: json['longitude'] as String?,
     );
 
-Map<String, dynamic> _$$_ResponseCoordinateModelToJson(
-        _$_ResponseCoordinateModel instance) =>
+Map<String, dynamic> _$$_CoordinateModelToJson(_$_CoordinateModel instance) =>
     <String, dynamic>{
       'prkplceNo': instance.prkplceNo,
       'rdnmadr': instance.rdnmadr,
@@ -66,4 +48,6 @@ Map<String, dynamic> _$$_ResponseCoordinateModelToJson(
       'addunitTime': instance.addunitTime,
       'addunitCharge': instance.addunitCharge,
       'metpay': instance.metpay,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
     };
