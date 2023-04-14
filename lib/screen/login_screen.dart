@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../util/string_extension.dart';
 
 import '../controller/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +23,27 @@ class LoginScreen extends StatelessWidget {
                     'lib/images/login_bg.png',
                   ),
                   fit: BoxFit.cover)),
-          child: Column(children: [
-            SizedBox(
-              height: 500.h,
-            ),
-            textInputFiled(controller.idValue),
-            SizedBox(
-              height: 50.h,
-            ),            
-            textInputFiled(controller.passwordValue, isPassword: true),
-          ]),
+          child: Form(
+            key: _formKey,
+            child: Column(children: [
+              SizedBox(
+                height: 500.h,
+              ),
+              textInputFiled(controller.idValue),
+              SizedBox(
+                height: 50.h,
+              ),
+              textInputFiled(controller.passwordValue, isPassword: true),
+              SizedBox(
+                height: 50.h,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    controller.onLogin(_formKey);
+                  },
+                  child: Text('로그인'))
+            ]),
+          ),
         ));
   }
 
@@ -45,17 +59,42 @@ class LoginScreen extends StatelessWidget {
           valueListenable: listenableValue,
           builder: (context, value, child) {
             return TextFormField(
+                autovalidateMode: AutovalidateMode.always,
+                keyboardType: isPassword ? null : TextInputType.emailAddress,
                 initialValue: value,
                 onChanged: (value) => listenableValue.value = value,
                 obscureText: isPassword,
+                validator: (value) => isPassword
+                    ? value.validatePassword()
+                    : value.validateEmail(),
                 decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.5),
-                    enabledBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                        borderSide: BorderSide(color: Colors.black))));
+                  prefixIcon: isPassword
+                      ? const Icon(Icons.lock)
+                      : const Icon(Icons.person),
+                  hintText: isPassword ? 'password'.tr : 'id'.tr,
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.5),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      borderSide: BorderSide(color: Colors.blue)),
+                  enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      borderSide: BorderSide(color: Colors.black)),
+                  focusedErrorBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      borderSide: BorderSide(color: Colors.blue)),
+                  errorBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      borderSide: BorderSide(color: Colors.red)),
+                ));
           }),
     );
   }

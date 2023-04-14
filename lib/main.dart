@@ -6,6 +6,7 @@ import 'package:vehicle/controller/home_controller.dart';
 import 'package:vehicle/repository/home_repository.dart';
 import 'package:vehicle/screen/home_screen.dart';
 import 'package:vehicle/screen/login_screen.dart';
+import 'package:vehicle/util/translations.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -19,6 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      translations: Messages(),
+      locale: const Locale('ko', 'KR'),
       home: ScreenUtilInit(
         designSize: const Size(1080, 1920),
         minTextAdapt: true,
@@ -29,11 +32,11 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: child),
-        child: const LoginScreen(),
+        child:  LoginScreen(),
       ),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => const LoginScreen()),
+        GetPage(name: '/', page: () =>  LoginScreen()),
         GetPage(name: '/home', page: () => const HomeScreen(), bindings: [
           BindingsBuilder<HomeController>(() {
             Get.lazyPut(() => HomeController());
