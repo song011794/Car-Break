@@ -39,9 +39,17 @@ class LoginScreen extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    controller.onLogin(_formKey);
+                    controller.onSignIn(_formKey);
                   },
-                  child: Text('로그인'))
+                  child: Text('로그인')),
+              SizedBox(
+                height: 50.h,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    controller.onSignUp();
+                  },
+                  child: Text('회원가입'))
             ]),
           ),
         ));
