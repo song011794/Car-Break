@@ -7,8 +7,14 @@ import 'package:vehicle/repository/home_repository.dart';
 import 'package:vehicle/screen/home_screen.dart';
 import 'package:vehicle/screen/login_screen.dart';
 import 'package:vehicle/util/translations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
@@ -32,11 +38,11 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: child),
-        child:  LoginScreen(),
+        child: LoginScreen(),
       ),
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () =>  LoginScreen()),
+        GetPage(name: '/', page: () => LoginScreen()),
         GetPage(name: '/home', page: () => const HomeScreen(), bindings: [
           BindingsBuilder<HomeController>(() {
             Get.lazyPut(() => HomeController());

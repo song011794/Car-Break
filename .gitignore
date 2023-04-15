@@ -2,3 +2,4 @@ build/
 .dart_tool/
 .gitmessage.txt
 .env
+lib/firebase_options.dart
