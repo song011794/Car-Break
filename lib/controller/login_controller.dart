@@ -17,7 +17,7 @@ class LoginController extends GetxController {
           email: idValue.value, password: passwordValue.value);
 
       String? jwtToken = await credential.user?.getIdToken();
-      String? refreshTotken =  credential.user?.refreshToken;
+      
 
       if (credential.user?.emailVerified ?? false) {
         Get.toNamed('/home');
