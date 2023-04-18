@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:vehicle/controller/home_controller.dart';
-import 'package:vehicle/repository/home_repository.dart';
 import 'package:vehicle/screen/home_screen.dart';
 import 'package:vehicle/screen/login_screen.dart';
 import 'package:vehicle/util/translations.dart';
@@ -34,12 +32,12 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
-            title: 'Flutter Demo',
+            title: 'app_title'.tr,
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
             home: child),
-        child: FutureBuilder<Object>(
+        child: FutureBuilder<String>(
             future: FirebaseAuth.instance.currentUser?.getIdToken(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.none) {
@@ -58,14 +56,17 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),
-        GetPage(name: '/home', page: () => const HomeScreen(), bindings: [
-          BindingsBuilder<HomeController>(() {
-            Get.lazyPut(() => HomeController());
-          }),
-          BindingsBuilder<HomeRepository>(() {
-            Get.lazyPut(() => HomeRepository());
-          })
-        ]),
+        GetPage(
+          name: '/home', page: () => const HomeScreen(),
+          // bindings: [
+          //   BindingsBuilder<HomeController>(() {
+          //     Get.lazyPut(() => HomeController());
+          //   }),
+          //   BindingsBuilder<HomeRepository>(() {
+          //     Get.lazyPut(() => HomeRepository());
+          //   })
+          // ]
+        ),
       ],
     );
   }

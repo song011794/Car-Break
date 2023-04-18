@@ -4,6 +4,7 @@ class Messages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'ko_KR': {
+          'app_title' : 'Car휴',
           'id': '아이디',
           'password': '비밀번호',
           'please_enter_your_email': '이메일을 입력하세요',
@@ -13,6 +14,7 @@ class Messages extends Translations {
 
           'sing_out': '로그아웃',
           'sing_in': '로그인',
+          'sns_login' : 'SNS 계정으로 로그인',
           'view_passwod' : '비밀번호 보기',
         },
         'de_DE': {
