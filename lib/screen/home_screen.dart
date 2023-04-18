@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,7 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     controller = Get.put(HomeController());
   }
 
@@ -44,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
   Widget drawerLogout() => ListTile(
-        title: Text('로그아웃'),
+        title: Text('sing_out'.tr),
         onTap: () => controller.onSignOut(),
       );
 

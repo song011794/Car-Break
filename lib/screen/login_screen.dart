@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
           return Container(
             padding: EdgeInsets.only(left: 100.w, right: 100.w),
             child: TextFormField(
-                autovalidateMode: AutovalidateMode.always,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 keyboardType: isPassword ? null : TextInputType.emailAddress,
                 initialValue: value,
                 onChanged: (value) => listenableValue.value = value,

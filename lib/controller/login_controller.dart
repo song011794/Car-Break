@@ -17,7 +17,6 @@ class LoginController extends GetxController {
           email: idValue.value, password: passwordValue.value);
 
       String? jwtToken = await credential.user?.getIdToken();
-      
 
       if (credential.user?.emailVerified ?? false) {
         Get.toNamed('/home');
@@ -71,7 +70,6 @@ class LoginController extends GetxController {
     // Once signed in, return the UserCredential
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
-
 
     String? jwtToken = await userCredential.user?.getIdToken();
 
