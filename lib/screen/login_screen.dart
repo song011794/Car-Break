@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   /// ValueNotifier<String> listenableValue : 데이터 저장 변수 </br>
   /// bool isPassword : 패스워드 여부 </br>
   Widget textInputFiled(ValueNotifier<String> listenableValue,
-      {bool isPassword = false}) {
+      {bool isPassword = false, bool isObscure = false}) {
     return ValueListenableBuilder(
         valueListenable: listenableValue,
         builder: (context, value, child) {
@@ -26,11 +26,12 @@ class LoginScreen extends StatelessWidget {
                 keyboardType: isPassword ? null : TextInputType.emailAddress,
                 initialValue: value,
                 onChanged: (value) => listenableValue.value = value,
-                obscureText: isPassword,
+                obscureText: isPassword && !isObscure,
                 validator: (value) => isPassword
                     ? value.validatePassword()
                     : value.validateEmail(),
                 decoration: InputDecoration(
+                  errorStyle: TextStyle(fontSize: 30.sp),
                   prefixIcon: isPassword
                       ? const Icon(Icons.lock)
                       : const Icon(Icons.person),
@@ -102,25 +103,66 @@ class LoginScreen extends StatelessWidget {
                     'lib/images/login_bg.png',
                   ),
                   fit: BoxFit.cover)),
-          child: Form(
-            key: _formKey,
-            child: Column(children: [
-              SizedBox(
-                height: 500.h,
+          child: Column(
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(children: [
+                  SizedBox(
+                    height: 500.h,
+                  ),
+                  textInputFiled(controller.idValue),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  Obx(() => textInputFiled(controller.passwordValue,
+                      isPassword: true, isObscure: controller.isObscure.value)),
+                ]),
               ),
-              textInputFiled(controller.idValue),
               SizedBox(
-                height: 50.h,
+                height: 20.h,
               ),
-              textInputFiled(controller.passwordValue, isPassword: true),
-              SizedBox(
-                height: 50.h,
-              ),
+              Obx(() => Container(
+                        padding: EdgeInsets.only(left: 80.w),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              side: MaterialStateBorderSide.resolveWith(
+                                (states) => const BorderSide(
+                                    width: 1.0, color: Colors.black),
+                              ),
+                              activeColor: Colors.transparent,
+                              checkColor: Colors.black,
+                              value: controller.isObscure.value,
+                              onChanged: (value) => controller.isObscure(value),
+                            ),
+                            Text(
+                              'view_passwod'.tr,
+                              style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      )
+                  //   CheckboxMenuButton(
+
+                  //       style: ButtonStyle(
+
+                  //       value: controller.isObscure.value,
+                  //       onChanged: (value) => controller.isObscure(value),
+                  //       child: Text(
+                  //         'view_passwod'.tr,
+                  //         style: TextStyle(
+                  //             color: Colors.white70, fontWeight: FontWeight.bold),
+                  //       )),
+                  // ),
+                  ),
               ElevatedButton(
                   onPressed: () {
                     controller.onSignIn(_formKey);
                   },
-                  child: Text('로그인')),
+                  child: Text('sing_in'.tr)),
               SizedBox(
                 height: 50.h,
               ),
@@ -133,7 +175,7 @@ class LoginScreen extends StatelessWidget {
                 height: 50.h,
               ),
               socialLoginButton(controller.signInWithGoogle)
-            ]),
+            ],
           ),
         ));
   }

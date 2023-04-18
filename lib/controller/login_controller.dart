@@ -7,6 +7,8 @@ class LoginController extends GetxController {
   final ValueNotifier<String> idValue = ValueNotifier<String>('');
   final ValueNotifier<String> passwordValue = ValueNotifier<String>('');
 
+  final RxBool isObscure = false.obs;
+
   void onSignIn(GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
