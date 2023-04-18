@@ -168,7 +168,7 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 150.h,
+                  height: 250.h,
                 ),
                 Text(
                   'sns_login'.tr,
