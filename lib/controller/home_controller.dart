@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,7 +10,7 @@ import '../models/coordinate_model.dart';
 import '../repository/home_repository.dart';
 
 class HomeController extends GetxController {
-  final homeRepository = Get.find<HomeRepository>();
+  late final homeRepository = Get.put(HomeRepository());
 
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
@@ -74,5 +76,10 @@ class HomeController extends GetxController {
       await mapController.animateCamera(CameraUpdate.newLatLng(
           LatLng(position.latitude, position.longitude)));
     });
+  }
+
+  void onSignOut() {
+    FirebaseAuth.instance.signOut();
+    Get.offAllNamed('/login');
   }
 }

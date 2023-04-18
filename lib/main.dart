@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +39,21 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             home: child),
-        child: LoginScreen(),
+        child: FutureBuilder<Object>(
+            future: FirebaseAuth.instance.currentUser?.getIdToken(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.none) {
+                return LoginScreen();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  return const HomeScreen();
+                } else {
+                  return LoginScreen();
+                }
+              } else {
+                return Container();
+              }
+            }),
       ),
       initialRoute: '/',
       getPages: [

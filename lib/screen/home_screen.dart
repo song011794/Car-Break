@@ -1,19 +1,60 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vehicle/controller/home_controller.dart';
 
-class HomeScreen extends GetView<HomeController> {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static const CameraPosition _seoulCitiHall = CameraPosition(
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late HomeController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = Get.put(HomeController());
+  }
+
+  final CameraPosition _seoulCitiHall = const CameraPosition(
     target: LatLng(37.5664, 126.9779),
     zoom: 14.4746,
   );
 
+  Widget drawerUserHeader() => UserAccountsDrawerHeader(
+        currentAccountPicture: FirebaseAuth.instance.currentUser?.photoURL ==
+                null
+            ? null
+            : CircleAvatar(
+                backgroundImage:
+                    NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)),
+        accountName: Text(FirebaseAuth.instance.currentUser?.displayName ?? ''),
+        accountEmail: Text(FirebaseAuth.instance.currentUser?.email ?? ''),
+        decoration: BoxDecoration(
+            color: Colors.red[200],
+            borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(40.0),
+                bottomRight: Radius.circular(40.0))),
+      );
+
+  Widget drawerLogout() => ListTile(
+        title: Text('로그아웃'),
+        onTap: () => controller.onSignOut(),
+      );
+
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.put(HomeController());
+
     return Scaffold(
+      drawer: Drawer(
+          child: ListView(children: [drawerUserHeader(), drawerLogout()])),
       appBar: AppBar(),
       body: Obx(
         () => GoogleMap(
