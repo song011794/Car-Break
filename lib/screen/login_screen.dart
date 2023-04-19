@@ -90,7 +90,7 @@ class LoginScreen extends StatelessWidget {
               imagePath,
             )),
       ),
-      onTap: () => onLogin,
+      onTap: () => onLogin(),
     );
   }
 
@@ -184,7 +184,7 @@ class LoginScreen extends StatelessWidget {
                     socialLoginButton('lib/images/google_logo.png',
                         controller.signInWithGoogle),
                     socialLoginButton('lib/images/apple_logo.png',
-                        controller.signInWithGoogle),
+                        controller.signInWithApple),
                     socialLoginButton('lib/images/facebook_logo.png',
                         controller.signInWithGoogle),
                     // socialLoginButton(controller.signInWithGoogle)

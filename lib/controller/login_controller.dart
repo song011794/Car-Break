@@ -98,4 +98,15 @@ class LoginController extends GetxController {
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  Future<UserCredential> signInWithApple() async {
+    final appleProvider = AppleAuthProvider();
+
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithProvider(appleProvider);
+
+    String? jwtToken = await userCredential.user?.getIdToken();
+
+    return await FirebaseAuth.instance.signInWithProvider(appleProvider);
+  }
 }
