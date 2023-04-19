@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import '../util/string_extension.dart';
 
 import '../controller/login_controller.dart';
@@ -120,12 +119,19 @@ class LoginScreen extends StatelessWidget {
                       height: 500.h,
                     ),
                     textInputFiled(controller.idValue),
-                    Obx(() => textInputFiled(controller.passwordValue,
-                            isPassword: true,
-                            isObscure: controller.isObscure.value,
-                            onObscureIconTap: () {
-                          controller.isObscure(!controller.isObscure.value);
-                        })),
+                    ObxValue(
+                        (data) => textInputFiled(controller.passwordValue,
+                                isPassword: true,
+                                isObscure: data.value, onObscureIconTap: () {
+                              data(!data.value);
+                            }),
+                        controller.isObscure),
+                    // Obx(() => textInputFiled(controller.passwordValue,
+                    //         isPassword: true,
+                    //         isObscure: controller.isObscure.value,
+                    //         onObscureIconTap: () {
+                    //       controller.isObscure(!controller.isObscure.value);
+                    //     })),
                   ]),
                 ),
                 SizedBox(

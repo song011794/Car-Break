@@ -51,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final HomeController controller = Get.put(HomeController());
 
     return Scaffold(
+      appBar: AppBar(),
       drawer: Drawer(
           child: ListView(children: [drawerUserHeader(), drawerLogout()])),
-      appBar: AppBar(),
       body: Obx(
         () => GoogleMap(
             zoomControlsEnabled: false,

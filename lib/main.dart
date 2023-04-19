@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vehicle/controller/sign_in_controller.dart';
 import 'package:vehicle/screen/home_screen.dart';
 import 'package:vehicle/screen/login_screen.dart';
+import 'package:vehicle/screen/sign_in_screen.dart';
 import 'package:vehicle/util/translations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -57,15 +59,14 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),
         GetPage(
-          name: '/home', page: () => const HomeScreen(),
-          // bindings: [
-          //   BindingsBuilder<HomeController>(() {
-          //     Get.lazyPut(() => HomeController());
-          //   }),
-          //   BindingsBuilder<HomeRepository>(() {
-          //     Get.lazyPut(() => HomeRepository());
-          //   })
-          // ]
+            name: '/signin',
+            page: () => const SignInScreen(),
+            binding: BindingsBuilder(
+              () => Get.lazyPut(() => SignInController()),
+            )),
+        GetPage(
+          name: '/home',
+          page: () => const HomeScreen(),
         ),
       ],
     );

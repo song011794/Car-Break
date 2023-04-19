@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:vehicle/util/custom_dialog.dart';
 
 class LoginController extends GetxController {
   final ValueNotifier<String> idValue = ValueNotifier<String>('');
@@ -18,12 +19,19 @@ class LoginController extends GetxController {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: idValue.value, password: passwordValue.value);
 
+      String? tt = await credential.user?.providerData[0].providerId;
+      print('providerId : $tt');
+
+      String? aa = await credential.user?.uid;
+      print('uid : $aa');
+
       String? jwtToken = await credential.user?.getIdToken();
 
       if (credential.user?.emailVerified ?? false) {
         Get.toNamed('/home');
       } else {
-        debugPrint('인증 안됨');
+        // debugPrint('인증 안됨');
+        CustomDialog().showOk(title: 'Dialog', content: 'This is a dialog');
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -35,24 +43,27 @@ class LoginController extends GetxController {
   }
 
   void onSignUp() async {
-    try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: idValue.value,
-        password: passwordValue.value,
-      );
+    Get.toNamed('/signin');
+    // CustomDialog().showSignInFormDialog();
 
-      await FirebaseAuth.instance.setLanguageCode("ko");
-      await credential.user?.sendEmailVerification();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        debugPrint('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        debugPrint('The account already exists for that email.');
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    // try {
+    //   final credential =
+    //       await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    //     email: idValue.value,
+    //     password: passwordValue.value,
+    //   );
+
+    //   await FirebaseAuth.instance.setLanguageCode("ko");
+    //   await credential.user?.sendEmailVerification();
+    // } on FirebaseAuthException catch (e) {
+    //   if (e.code == 'weak-password') {
+    //     debugPrint('The password provided is too weak.');
+    //   } else if (e.code == 'email-already-in-use') {
+    //     debugPrint('The account already exists for that email.');
+    //   }
+    // } catch (e) {
+    //   debugPrint(e.toString());
+    // }
   }
 
   Future<UserCredential> signInWithGoogle() async {
@@ -72,6 +83,12 @@ class LoginController extends GetxController {
     // Once signed in, return the UserCredential
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
+
+    String? tt = await userCredential.user?.providerData[0].providerId;
+    print('providerId : $tt');
+
+    String? aa = await userCredential.user?.uid;
+    print('uid : $aa');
 
     String? jwtToken = await userCredential.user?.getIdToken();
 
