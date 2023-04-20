@@ -15,13 +15,17 @@ class SignInScreen extends GetView<SignInController> {
 
   Widget textForm(TextFormType textFormType,
       {bool isObscure = false, Function? onObscureIconTap}) {
+        String? hintText;
     final RxString dataValue;
 
     if (textFormType == TextFormType.id) {
+      hintText = 'id'.tr;
       dataValue = controller.idValue;
     } else if (textFormType == TextFormType.password) {
+      hintText = 'password'.tr;
       dataValue = controller.passwordValue;
     } else {
+      hintText = 'password_confirm'.tr;
       dataValue = controller.passwordConfirmValue;
     }
 
@@ -52,6 +56,7 @@ class SignInScreen extends GetView<SignInController> {
                 return result;
               },
               decoration: InputDecoration(
+                hintText: hintText,
                 errorMaxLines: 2,
                 isDense: true,
                 errorStyle: TextStyle(fontSize: 30.sp),

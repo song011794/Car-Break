@@ -7,6 +7,7 @@ class Messages extends Translations {
           'app_title' : 'Car휴',
           'id': '아이디',
           'password': '비밀번호',
+          'password_confirm' : '비밀번호 확인',
           'please_enter_your_email': '이메일을 입력하세요',
           'please_enter_your_password': '비밀번호를 입력하세요',
           'Invalid_email_format': '잘못된 이메일 형식입니다.',
