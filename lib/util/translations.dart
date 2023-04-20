@@ -18,6 +18,14 @@ class Messages extends Translations {
           'sign_up' : '회원가입',
           'sns_login' : 'SNS 계정으로 로그인',
           'view_passwod' : '비밀번호 보기',
+          'mail_authentication' : '메일 인증',
+
+          'next' : '다음',
+          'before' : '이전',
+          'sign_up_failed' : '회원가입 실패',
+          'This_email_is_already_registered' : '이미 등록되어 있는 이메일입니다',
+          'send_verification_mail' : '인증 메일 보내기',
+          'ok' : '확인',
         },
         'de_DE': {
           'hello': 'Hallo Welt',

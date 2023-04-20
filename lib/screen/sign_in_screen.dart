@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vehicle/util/custom_dialog.dart';
 import '../util/string_extension.dart';
 import '../controller/sign_in_controller.dart';
 
@@ -51,6 +52,7 @@ class SignInScreen extends GetView<SignInController> {
                 return result;
               },
               decoration: InputDecoration(
+                errorMaxLines: 2,
                 isDense: true,
                 errorStyle: TextStyle(fontSize: 30.sp),
                 prefixIcon: textFormType == TextFormType.password ||
@@ -109,36 +111,41 @@ class SignInScreen extends GetView<SignInController> {
                           controller.onConfirmId(
                               _idKey, details.onStepContinue!);
                         },
-                        child: const Text(
-                          'Continue',
-                          style: TextStyle(
+                        child: Text(
+                          'next'.tr,
+                          style: const TextStyle(
                             color: Colors.teal,
                           ),
                         ),
                       ),
                     ],
                   );
-                } else {
+                } else if (details.currentStep == 1) {
                   return Row(
                     children: <Widget>[
                       TextButton(
                         onPressed: () {
                           controller.onConfirmPassword(
-                              _idKey, details.onStepContinue!);
+                              _passwordKey, () => details.onStepContinue!());
                         },
-                        child: const Text(
-                          'Continue',
-                          style: TextStyle(
+                        child: Text(
+                          'next'.tr,
+                          style: const TextStyle(
                             color: Colors.teal,
                           ),
                         ),
                       ),
                       TextButton(
                         onPressed: details.onStepCancel,
-                        child: const Text('이전'),
+                        child: Text(
+                          'before'.tr,
+                          style: const TextStyle(color: Colors.orange),
+                        ),
                       ),
                     ],
                   );
+                } else {
+                  return Container();
                 }
               }),
               onStepCancel: () {
@@ -147,7 +154,7 @@ class SignInScreen extends GetView<SignInController> {
                 }
               },
               onStepContinue: () {
-                if (data.value <= 0) {
+                if (data.value <= 1) {
                   ++data.value;
                 }
               },
@@ -157,15 +164,14 @@ class SignInScreen extends GetView<SignInController> {
               steps: <Step>[
                 Step(
                     title: Text(
-                      '아이디를 입력하세요.',
+                      'please_enter_your_email'.tr,
                       style: TextStyle(
+                          fontWeight: FontWeight.w600,
                           color: _idKey.currentState?.validate() ?? true
                               ? data.value == 0
                                   ? Colors.blue
                                   : Colors.black
-                              : Colors.red
-                          // data.value == 0 ? Colors.blue : Colors.black
-                          ),
+                              : Colors.red),
                     ),
                     content: Form(
                       key: _idKey,
@@ -175,8 +181,9 @@ class SignInScreen extends GetView<SignInController> {
                     )),
                 Step(
                   title: Text(
-                    '비밀번호를 입력하세요.',
+                    'please_enter_your_password'.tr,
                     style: TextStyle(
+                        fontWeight: FontWeight.w600,
                         color: _passwordKey.currentState?.validate() ?? true
                             ? data.value == 0
                                 ? Colors.blue
@@ -210,6 +217,37 @@ class SignInScreen extends GetView<SignInController> {
                     ]),
                   ),
                 ),
+                Step(
+                    title: Text(
+                      'mail_authentication'.tr,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: data.value == 2 ? Colors.blue : Colors.black),
+                    ),
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        children: [
+                          Text('어쩌구저쩌구'),
+                          SizedBox(
+                            height: 100.h,
+                          ),
+                          ElevatedButton(
+                              onPressed: () async {
+                                int result = await controller.onSignUp(
+                                    _idKey, _passwordKey);
+
+                                if (result == -3) {
+                                  CustomDialog().showOk(
+                                      title: 'sign_up_failed',
+                                      content:
+                                          'This_email_is_already_registered');
+                                }
+                              },
+                              child: Text('send_verification_mail'.tr))
+                        ],
+                      ),
+                    )),
               ],
             ),
         controller.stepperIndex);
