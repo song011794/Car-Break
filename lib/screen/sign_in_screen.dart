@@ -246,7 +246,8 @@ class SignInScreen extends GetView<SignInController> {
                                   CustomDialog().showOk(
                                       title: 'sign_up',
                                       content:
-                                          'verification_email_has_been_sent');
+                                          'verification_email_has_been_sent',
+                                          onOk: () => Get.offAllNamed('/login'));
                                 }
                               },
                               child: Text('send_verification_mail'.tr))
