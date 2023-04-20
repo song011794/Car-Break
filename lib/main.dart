@@ -45,7 +45,8 @@ class MyApp extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.none) {
                 return LoginScreen();
               } else if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
+                if (snapshot.hasData &&
+                    (FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
                   return const HomeScreen();
                 } else {
                   return LoginScreen();

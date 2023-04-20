@@ -25,7 +25,9 @@ class Messages extends Translations {
           'sign_up_failed' : '회원가입 실패',
           'This_email_is_already_registered' : '이미 등록되어 있는 이메일입니다',
           'send_verification_mail' : '인증 메일 보내기',
+          'send_verification_mail_infomation' : "'인증 메일 보내기' 버튼을 클릭해주세요.\n받은 메일의 링크를 클릭하여 가입 완료해주세요.",
           'ok' : '확인',
+          'verification_email_has_been_sent' : '인증 메일을 보냈습니다. \n메일을 확인해주세요.'
         },
         'de_DE': {
           'hello': 'Hallo Welt',

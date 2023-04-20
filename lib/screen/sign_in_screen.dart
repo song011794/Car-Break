@@ -228,7 +228,7 @@ class SignInScreen extends GetView<SignInController> {
                       alignment: Alignment.centerLeft,
                       child: Column(
                         children: [
-                          Text('어쩌구저쩌구'),
+                          Text('send_verification_mail_infomation'.tr),
                           SizedBox(
                             height: 100.h,
                           ),
@@ -242,6 +242,11 @@ class SignInScreen extends GetView<SignInController> {
                                       title: 'sign_up_failed',
                                       content:
                                           'This_email_is_already_registered');
+                                }else if(result ==0){
+                                  CustomDialog().showOk(
+                                      title: 'sign_up',
+                                      content:
+                                          'verification_email_has_been_sent');
                                 }
                               },
                               child: Text('send_verification_mail'.tr))

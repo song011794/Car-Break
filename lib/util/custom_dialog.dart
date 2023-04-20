@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomDialog {
-  void showOk({required String title, required String content}) {
+  void showOk(
+      {required String title, required String content, VoidCallback? onOk}) {
     Get.dialog(
       AlertDialog(
         title: Container(
@@ -35,33 +36,16 @@ class CustomDialog {
           MaterialButton(
             child: Text("ok".tr),
             onPressed: () {
-              Get.back();
+              if (onOk != null) {
+                onOk();
+              } else {
+                Get.back();
+              }
             },
           )
         ],
       ),
       barrierDismissible: false,
-
-      //   AlertDialog(
-      //   titlePadding: EdgeInsets.zero,
-      //   shape: const RoundedRectangleBorder(
-      //       borderRadius: BorderRadius.all(Radius.circular(32.0))),
-      //   title: Container(
-      //     color: Colors.indigoAccent,
-      //     child: Center(
-      //       child: Text(
-      //         title.tr,
-      //       ),
-      //     ),
-      //   ),
-      //   content: Text(content.tr),
-      //   actions: [
-      //     TextButton(
-      //       child: const Text("Close"),
-      //       onPressed: () => Get.back(),
-      //     ),
-      //   ],
-      // )
     );
   }
 }
