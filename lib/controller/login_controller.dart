@@ -11,9 +11,12 @@ class LoginController extends GetxController {
   final RxBool isObscure = false.obs;
 
   void onSignIn(GlobalKey<FormState> formKey) async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+    if (!formKey.currentState!.validate()) {
+      return;
+      // formKey.currentState!.save();
     }
+
+    formKey.currentState!.save();
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(

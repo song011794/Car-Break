@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => MaterialApp(
             title: 'app_title'.tr,
             theme: ThemeData(
-              primarySwatch: Colors.blue,
+              primaryColor: Colors.white,
             ),
             home: child),
         child: FutureBuilder<String>(
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => LoginScreen()),
         GetPage(
             name: '/signin',
-            page: () => const SignInScreen(),
+            page: () => SignInScreen(),
             binding: BindingsBuilder(
               () => Get.lazyPut(() => SignInController()),
             )),

@@ -126,12 +126,6 @@ class LoginScreen extends StatelessWidget {
                               data(!data.value);
                             }),
                         controller.isObscure),
-                    // Obx(() => textInputFiled(controller.passwordValue,
-                    //         isPassword: true,
-                    //         isObscure: controller.isObscure.value,
-                    //         onObscureIconTap: () {
-                    //       controller.isObscure(!controller.isObscure.value);
-                    //     })),
                   ]),
                 ),
                 SizedBox(
@@ -146,7 +140,7 @@ class LoginScreen extends StatelessWidget {
                         controller.onSignIn(_formKey);
                       },
                       child: Text(
-                        'sing_in'.tr,
+                        'sign_in'.tr,
                         style: TextStyle(fontSize: 55.sp),
                       )),
                 ),
