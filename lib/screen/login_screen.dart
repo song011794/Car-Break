@@ -186,10 +186,9 @@ class LoginScreen extends StatelessWidget {
                     socialLoginButton('lib/images/google_logo.png',
                         controller.signInWithGoogle),
                     socialLoginButton('lib/images/apple_logo.png',
-                        controller.signInWithApple),
-                    socialLoginButton('lib/images/facebook_logo.png',
                         controller.signInWithNaver),
-                    // socialLoginButton(controller.signInWithGoogle)
+                    socialLoginButton('lib/images/facebook_logo.png',
+                        controller.signInWithKaKao),                   
                   ],
                 )
               ],

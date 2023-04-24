@@ -130,7 +130,7 @@ class LoginController extends GetxController {
     final url = Uri.https('nid.naver.com', '/oauth2.0/authorize', {
       'response_type': 'code',
       'client_id': dotenv.get('NAVER_CLIENT_ID'),
-      'redirect_uri': dotenv.get('NAVER_REDIRECT_URI'),
+      'redirect_uri': dotenv.get('NAVER_REDIRECT_SIGN_IN_URI'),
       'state': clientState,
     });
 
@@ -149,9 +149,47 @@ class LoginController extends GetxController {
 
     Map<String, dynamic> bodys = json.decode(responseTokens.body);
 
-    var response = await http.post(Uri.parse(dotenv.get('NAVER_TOKEN_URI')),
+    var response = await http.post(
+        Uri.parse(dotenv.get('NAVER_REDIRECT_TOKEN_URI')),
         headers: {"Content-Type": "application/json"},
         body: json.encode({"accessToken": bodys['access_token']}));
+
+    return FirebaseAuth.instance.signInWithCustomToken(response.body);
+  }
+
+  Future<UserCredential> signInWithKaKao() async {
+    final clientState = const Uuid().v4();
+    final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
+      'response_type': 'code',
+      'client_id': dotenv.get('KAKAO_CLIENT_ID'),
+      'response_mode': 'form_post',
+      'redirect_uri': dotenv.get('KAKAO_REDIRECT_SIGN_IN_URI'),
+      'scope': 'account_email profile_image',
+      'state': clientState,
+    });
+
+    print(url.toString());
+
+    final result = await FlutterWebAuth.authenticate(
+        url: url.toString(),
+        callbackUrlScheme: "webauthcallback"); //"applink"//"signinwithapple"
+    final body = Uri.parse(result).queryParameters;
+
+    final tokenUrl = Uri.https('kauth.kakao.com', '/oauth/token', {
+      'grant_type': 'authorization_code',
+      'client_id': dotenv.get('KAKAO_CLIENT_ID'),
+      'client_secret': dotenv.get('KAKAO_CLIENT_SECRET'),
+      'redirect_uri': dotenv.get('KAKAO_REDIRECT_SIGN_IN_URI'),
+      'code': body["code"],
+    });
+    var responseTokens = await http.post(tokenUrl);
+    Map<String, dynamic> bodys = json.decode(responseTokens.body);
+    var response = await http.post(
+        Uri.parse(dotenv.get('KAKAO_REDIRECT_TOKEN_URI')),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({"accessToken": bodys['access_token']}));
+
+    final aa = FirebaseAuth.instance.signInWithCustomToken(response.body);
 
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
