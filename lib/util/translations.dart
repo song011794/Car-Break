@@ -20,6 +20,7 @@ class Messages extends Translations {
           'sns_login' : 'SNS 계정으로 로그인',
           'view_passwod' : '비밀번호 보기',
           'mail_authentication' : '메일 인증',
+          'find_password' : '비밀번호 찾기',
 
           'next' : '다음',
           'before' : '이전',

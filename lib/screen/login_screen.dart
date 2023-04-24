@@ -12,8 +12,10 @@ class LoginScreen extends StatelessWidget {
 
   /// 텍스트 입력(ID, Password)받는 위젯 </br>
   /// Param </br>
-  /// ValueNotifier<String> listenableValue : 데이터 저장 변수 </br>
+  /// (required) ValueNotifier<String> listenableValue : 데이터 저장 변수 </br>
   /// bool isPassword : 패스워드 여부 </br>
+  /// bool isObscure : 패스워드 숨김 처리 여부 </br>
+  /// Function? onObscureIconTap : 패스워드 숨김 아이콘 클릭시 콜백 함수</br>
   Widget textInputFiled(ValueNotifier<String> listenableValue,
       {bool isPassword = false,
       bool isObscure = false,
@@ -152,13 +154,13 @@ class LoginScreen extends StatelessWidget {
                           // controller.onSignUp();
                         },
                         child: Text(
-                          '비밀번호 찾기',
+                          'find_password'.tr,
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 35.sp),
                         )),
                     TextButton(
                         onPressed: () {
-                          Get.toNamed('/signin');    
+                          Get.toNamed('/signin');
                         },
                         child: Text(
                           'sign_up'.tr,

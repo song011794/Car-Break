@@ -150,8 +150,8 @@ class LoginController extends GetxController {
     Map<String, dynamic> bodys = json.decode(responseTokens.body);
 
     var response = await http.post(Uri.parse(dotenv.get('NAVER_TOKEN_URI')),
-        body: {"accessToken": bodys['access_token']});
-    
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({"accessToken": bodys['access_token']}));
 
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
