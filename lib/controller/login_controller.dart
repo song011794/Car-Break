@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vehicle/util/custom_dialog.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:http/http.dart' as http;
 
 class LoginController extends GetxController {
   final ValueNotifier<String> idValue = ValueNotifier<String>('');
@@ -43,30 +50,6 @@ class LoginController extends GetxController {
         debugPrint('Wrong password provided for that user.');
       }
     }
-  }
-
-  void onSignUp() async {
-    Get.toNamed('/signin');
-    // CustomDialog().showSignInFormDialog();
-
-    // try {
-    //   final credential =
-    //       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-    //     email: idValue.value,
-    //     password: passwordValue.value,
-    //   );
-
-    //   await FirebaseAuth.instance.setLanguageCode("ko");
-    //   await credential.user?.sendEmailVerification();
-    // } on FirebaseAuthException catch (e) {
-    //   if (e.code == 'weak-password') {
-    //     debugPrint('The password provided is too weak.');
-    //   } else if (e.code == 'email-already-in-use') {
-    //     debugPrint('The account already exists for that email.');
-    //   }
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
   }
 
   Future<UserCredential> signInWithGoogle() async {
@@ -128,5 +111,48 @@ class LoginController extends GetxController {
     String? jwtToken = await userCredential.user?.getIdToken();
 
     return await FirebaseAuth.instance.signInWithProvider(appleProvider);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
+  Future<UserCredential> signInWithNaver() async {
+    final clientState = const Uuid().v4();
+    final url = Uri.https('nid.naver.com', '/oauth2.0/authorize', {
+      'response_type': 'code',
+      'client_id': dotenv.get('NAVER_CLIENT_ID'),
+      'redirect_uri': dotenv.get('NAVER_REDIRECT_URI'),
+      'state': clientState,
+    });
+
+    final result = await FlutterWebAuth.authenticate(
+        url: url.toString(), callbackUrlScheme: "webauthcallback");
+    final body = Uri.parse(result).queryParameters;
+
+    final tokenUrl = Uri.https('nid.naver.com', '/oauth2.0/token', {
+      'grant_type': 'authorization_code',
+      'client_id': dotenv.get('NAVER_CLIENT_ID'),
+      'client_secret': dotenv.get('NAVER_CLIENT_SECRET'),
+      'code': body["code"],
+      'state': clientState,
+    });
+    var responseTokens = await http.post(tokenUrl);
+
+    Map<String, dynamic> bodys = json.decode(responseTokens.body);
+
+    var response = await http.post(Uri.parse(dotenv.get('NAVER_TOKEN_URI')),
+        body: {"accessToken": bodys['access_token']});
+    
+
+    return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
 }

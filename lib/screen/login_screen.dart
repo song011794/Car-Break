@@ -149,19 +149,19 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     TextButton(
                         onPressed: () {
-                          controller.onSignUp();
+                          // controller.onSignUp();
                         },
                         child: Text(
-                          '아이디/비밀번호 찾기',
+                          '비밀번호 찾기',
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 35.sp),
                         )),
                     TextButton(
                         onPressed: () {
-                          controller.onSignUp();
+                          Get.toNamed('/signin');    
                         },
                         child: Text(
-                          '회원가입',
+                          'sign_up'.tr,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 45.sp),
                         )),
@@ -186,7 +186,7 @@ class LoginScreen extends StatelessWidget {
                     socialLoginButton('lib/images/apple_logo.png',
                         controller.signInWithApple),
                     socialLoginButton('lib/images/facebook_logo.png',
-                        controller.signInWithGoogle),
+                        controller.signInWithNaver),
                     // socialLoginButton(controller.signInWithGoogle)
                   ],
                 )
