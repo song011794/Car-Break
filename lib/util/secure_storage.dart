@@ -14,4 +14,20 @@ class SecretStorage {
   Future<String?> readAccessToken() async {
     return await _storage.read(key: 'accessToken');
   }
+
+  Future<void> saveLoginType(String? type) async {
+    if (!(type == 'email' ||
+        type == 'kakao' ||
+        type == 'google' ||
+        type == 'naver' ||
+        type == null)) {
+      throw Exception();
+    }
+
+    await _storage.write(key: 'loginType', value: type);
+  }
+
+  Future<String?> readLoginType() async {
+    return await _storage.read(key: 'loginType');
+  }
 }

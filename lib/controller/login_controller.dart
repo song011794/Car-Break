@@ -21,7 +21,6 @@ class LoginController extends GetxController {
   void onSignIn(GlobalKey<FormState> formKey) async {
     if (!formKey.currentState!.validate()) {
       return;
-      // formKey.currentState!.save();
     }
 
     formKey.currentState!.save();
@@ -53,54 +52,85 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  void snsLogin(String provider) async {
+    if (!(provider == 'google' || provider == 'naver' || provider == 'kakao')) {
+      return;
+    }
+    bool isSuccess = false;
+    CustomDialog().showLoading();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    if (provider == 'google') {
+      isSuccess = await signInWithGoogle();
+    } else if (provider == 'naver') {
+      isSuccess = await signInWithNaver();
+    } else if (provider == 'kakao') {
+      isSuccess = await signInWithKaKao();
+    }
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+    Navigator.of(Get.overlayContext!).pop();
 
-    // Once signed in, return the UserCredential
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+    if (isSuccess) {
+      Get.toNamed('/home');
+    }
+  }
 
-    String? tt = await userCredential.user?.providerData[0].providerId;
-    print('providerId : $tt');
+  Future<bool> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    String? aa = await userCredential.user?.uid;
-    print('uid : $aa');
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    String? jwtToken = await userCredential.user?.getIdToken();
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // try {
-    //   final emailCredential = await FirebaseAuth.instance
-    //       .createUserWithEmailAndPassword(
-    //           email: userCredential.user!.email!,
-    //           password: userCredential.user!.uid);
+      // Once signed in, return the UserCredential
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
-    //   if (emailCredential.user?.emailVerified ?? false) {
-    //     Get.toNamed('/home');
-    //   } else {
-    //     debugPrint('인증 안됨');
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   if (e.code == 'weak-password') {
-    //     debugPrint('The password provided is too weak.');
-    //   } else if (e.code == 'email-already-in-use') {
-    //     Get.toNamed('/home');
-    //   }
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
+      String? tt = await userCredential.user?.providerData[0].providerId;
+      print('providerId : $tt');
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      String? aa = await userCredential.user?.uid;
+      print('uid : $aa');
+
+      String? jwtToken = await userCredential.user?.getIdToken();
+
+      // try {
+      //   final emailCredential = await FirebaseAuth.instance
+      //       .createUserWithEmailAndPassword(
+      //           email: userCredential.user!.email!,
+      //           password: userCredential.user!.uid);
+
+      //   if (emailCredential.user?.emailVerified ?? false) {
+      //     Get.toNamed('/home');
+      //   } else {
+      //     debugPrint('인증 안됨');
+      //   }
+      // } on FirebaseAuthException catch (e) {
+      //   if (e.code == 'weak-password') {
+      //     debugPrint('The password provided is too weak.');
+      //   } else if (e.code == 'email-already-in-use') {
+      //     Get.toNamed('/home');
+      //   }
+      // } catch (e) {
+      //   debugPrint(e.toString());
+      // }
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      await SecretStorage().saveLoginType(null);
+      return false;
+    }
+
+    await SecretStorage().saveLoginType('google');
+
+    return true;
   }
 
   Future<UserCredential> signInWithApple() async {
@@ -156,12 +186,13 @@ class LoginController extends GetxController {
           headers: {"Content-Type": "application/json"},
           body: json.encode({"accessToken": bodys['access_token']}));
 
-      SecretStorage().saveAccessToken(bodys['access_token']);
-
       await FirebaseAuth.instance.signInWithCustomToken(response.body);
+      await SecretStorage().saveAccessToken(bodys['access_token']);
     } catch (e) {
+      await SecretStorage().saveLoginType(null);
       return false;
     }
+    await SecretStorage().saveLoginType('naver');
     return true;
   }
 
@@ -195,13 +226,13 @@ class LoginController extends GetxController {
           headers: {"Content-Type": "application/json"},
           body: json.encode({"accessToken": bodys['access_token']}));
 
-      SecretStorage().saveAccessToken(bodys['access_token']);
-
       await FirebaseAuth.instance.signInWithCustomToken(response.body);
-      
+      await SecretStorage().saveAccessToken(bodys['access_token']);
     } catch (e) {
+      await SecretStorage().saveLoginType(null);
       return false;
     }
+    await SecretStorage().saveLoginType('kakao');
     return true;
   }
 }

@@ -48,4 +48,23 @@ class CustomDialog {
       barrierDismissible: false,
     );
   }
+
+  Future<void> showLoading() async {
+    await showDialog(
+      context: Get.overlayContext!,
+      barrierDismissible: false,
+      builder: (_) => WillPopScope(
+        onWillPop: () async => false,
+        child: const Center(
+          child: SizedBox(
+            width: 60,
+            height: 60,
+            child: CircularProgressIndicator(
+              strokeWidth: 10,
+            ),
+          ),
+        ),
+      ),
+    );      
+  }
 }

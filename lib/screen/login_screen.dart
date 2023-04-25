@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:vehicle/util/custom_dialog.dart';
 import '../util/string_extension.dart';
 
 import '../controller/login_controller.dart';
@@ -184,17 +185,11 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     socialLoginButton('lib/images/google_logo.png',
-                        controller.signInWithGoogle),
-                    socialLoginButton('lib/images/naver_logo.png', () async {
-                      if (await controller.signInWithNaver()) {
-                        Get.toNamed('/home');
-                      }
-                    }),
-                    socialLoginButton('lib/images/kakao_logo.png', () async {
-                      if (await controller.signInWithKaKao()) {
-                        Get.toNamed('/home');
-                      }
-                    }),
+                        () => controller.snsLogin('google')),
+                    socialLoginButton('lib/images/naver_logo.png',
+                        () => controller.snsLogin('naver')),
+                    socialLoginButton('lib/images/kakao_logo.png',
+                        () => controller.snsLogin('kakao')),
                   ],
                 )
               ],

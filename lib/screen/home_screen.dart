@@ -48,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController controller = Get.put(HomeController());
-
     return Scaffold(
       appBar: AppBar(),
       drawer: Drawer(
@@ -62,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
             initialCameraPosition: _seoulCitiHall,
             onMapCreated: (GoogleMapController mapController) =>
                 controller.mapController.complete(mapController),
-            onCameraIdle: controller.onCameraIdle,
+            onCameraIdle:  controller.onCameraIdle,
             markers: Set<Marker>.of(controller.allMarkers)),
       ),
       floatingActionButton: FloatingActionButton(
