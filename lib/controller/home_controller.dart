@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/coordinate_model.dart';
 import '../repository/home_repository.dart';
+import '../util/secure_storage.dart';
 
 class HomeController extends GetxController {
   late final homeRepository = Get.put(HomeRepository());
@@ -52,19 +57,19 @@ class HomeController extends GetxController {
       ]
     });
 
-    final dataList =
-        res.body.map((data) => CoordinateModel.fromJson(data)).toList();
+    // final dataList =
+    //     res.body.map((data) => CoordinateModel.fromJson(data)).toList();
 
-    List<Marker> tempMarker = [];
+    // List<Marker> tempMarker = [];
 
-    for (CoordinateModel coordinateModel in dataList) {
-      tempMarker.add(Marker(
-          markerId: MarkerId(coordinateModel.prkplceNo),
-          position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
-              double.parse(coordinateModel.longitude ?? '0'))));
-    }
+    // for (CoordinateModel coordinateModel in dataList) {
+    //   tempMarker.add(Marker(
+    //       markerId: MarkerId(coordinateModel.prkplceNo),
+    //       position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
+    //           double.parse(coordinateModel.longitude ?? '0'))));
+    // }
 
-    allMarkers.addAll(tempMarker);
+    // allMarkers.addAll(tempMarker);
   }
 
   void goToCurrentPosition() {
@@ -77,8 +82,36 @@ class HomeController extends GetxController {
     });
   }
 
-  void onSignOut() {
+  void onSignOut() async {
+    String? accessToken = await SecretStorage().readAccessToken();    
+
+    if (accessToken != null) {
+      naverLogOut(accessToken);
+    }
+
     FirebaseAuth.instance.signOut();
     Get.offAllNamed('/login');
+  }
+
+  void kakaoLogOut(String accessToken) async {
+    Uri kakaoUnLinkUri = Uri.https('kapi.kakao.com', '/v1/user/unlink');
+
+    await http.post(
+      kakaoUnLinkUri,
+      headers: {"Authorization": 'Bearer $accessToken'},
+    );
+  }
+
+  void naverLogOut(String accessToken) async {
+    Uri kakaoUnLinkUri = Uri.https('nid.naver.com', '/oauth2.0/token', {
+      'grant_type': 'delete',
+      'client_id': dotenv.get('NAVER_CLIENT_ID'),
+      'client_secret': dotenv.get('NAVER_CLIENT_SECRET'),
+      'access_token': accessToken,
+      'service_provider': 'NAVER'
+    });
+
+    var response = await http.get(kakaoUnLinkUri);
+    debugPrint(response.toString());
   }
 }

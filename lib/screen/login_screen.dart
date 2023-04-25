@@ -185,10 +185,16 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     socialLoginButton('lib/images/google_logo.png',
                         controller.signInWithGoogle),
-                    socialLoginButton('lib/images/apple_logo.png',
-                        controller.signInWithNaver),
-                    socialLoginButton('lib/images/facebook_logo.png',
-                        controller.signInWithKaKao),                   
+                    socialLoginButton('lib/images/naver_logo.png', () async {
+                      if (await controller.signInWithNaver()) {
+                        Get.toNamed('/home');
+                      }
+                    }),
+                    socialLoginButton('lib/images/kakao_logo.png', () async {
+                      if (await controller.signInWithKaKao()) {
+                        Get.toNamed('/home');
+                      }
+                    }),
                   ],
                 )
               ],
