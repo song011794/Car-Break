@@ -62,6 +62,8 @@ dependencies:
   flutter_web_auth: ^0.5.0
   http: ^0.13.5
   flutter_secure_storage: ^8.0.0
+  permission_handler: ^10.2.0
+  app_settings: ^4.2.0
 
 dev_dependencies:
   flutter_test:

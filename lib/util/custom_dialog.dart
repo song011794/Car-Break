@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../util/string_extension.dart';
@@ -27,45 +26,80 @@ class CustomDialog {
   void showOk(
       {required String title, required String content, VoidCallback? onOk}) {
     Get.dialog(
-      AlertDialog(
-        title: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: const BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              topRight: Radius.circular(10.0),
+      WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
+            ),
+            child: Text(
+              title.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
-          child: Text(
-            title.tr,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          titlePadding: const EdgeInsets.only(left: 0, right: 0, bottom: 10),
+          contentPadding: const EdgeInsets.only(
+            left: 0,
+            right: 0,
+            top: 10,
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(content.tr, textAlign: TextAlign.center),
+                SizedBox(
+                  height: 50.h,
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                  ),
+                  width: double.infinity,
+                  child: TextButton(
+                    child: Text("ok".tr),
+                    onPressed: () {
+                      if (onOk != null) {
+                        onOk();
+                      } else {
+                        Get.back();
+                      }
+                    },
+                  ),
+                )
+              ],
             ),
           ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          // actions: <Widget>[
+          //   MaterialButton(
+          //     child: Text("ok".tr),
+          //     onPressed: () {
+          //       if (onOk != null) {
+          //         onOk();
+          //       } else {
+          //         Get.back();
+          //       }
+          //     },
+          //   )
+          // ],
         ),
-        titlePadding: const EdgeInsets.all(0),
-        content: Padding(
-          padding: const EdgeInsets.only(top: 15.0),
-          child: Text(content.tr, textAlign: TextAlign.center),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        actions: <Widget>[
-          MaterialButton(
-            child: Text("ok".tr),
-            onPressed: () {
-              if (onOk != null) {
-                onOk();
-              } else {
-                Get.back();
-              }
-            },
-          )
-        ],
       ),
       barrierDismissible: false,
     );

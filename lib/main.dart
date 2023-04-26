@@ -8,6 +8,7 @@ import 'package:vehicle/lib_color_schemes.g.dart';
 import 'package:vehicle/screen/home_screen.dart';
 import 'package:vehicle/screen/login_screen.dart';
 import 'package:vehicle/screen/sign_in_screen.dart';
+import 'package:vehicle/util/permission.dart';
 import 'package:vehicle/util/translations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -18,6 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
+
   runApp(const MyApp());
 }
 
@@ -27,6 +29,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await PermissionHandler().requestPermission();
+    });
+
     return GetMaterialApp(
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
