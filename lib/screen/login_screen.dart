@@ -152,7 +152,10 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     TextButton(
                         onPressed: () {
-                          // controller.onSignUp();
+                          CustomDialog().showTextFild(onOk: (value) {
+                            controller.findPassword(value);
+                          });
+                          // controller.findPassword();
                         },
                         child: Text(
                           'find_password'.tr,

@@ -52,6 +52,15 @@ class LoginController extends GetxController {
     }
   }
 
+  void findPassword(String email) {
+    try {
+      FirebaseAuth.instance.setLanguageCode('ko');
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void snsLogin(String provider) async {
     if (!(provider == 'google' || provider == 'naver' || provider == 'kakao')) {
       return;

@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vehicle/controller/sign_in_controller.dart';
+import 'package:vehicle/lib_color_schemes.g.dart';
 import 'package:vehicle/screen/home_screen.dart';
 import 'package:vehicle/screen/login_screen.dart';
 import 'package:vehicle/screen/sign_in_screen.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      themeMode: ThemeMode.system,
       translations: Messages(),
       locale: const Locale('ko', 'KR'),
       home: ScreenUtilInit(
@@ -46,7 +50,8 @@ class MyApp extends StatelessWidget {
                 return LoginScreen();
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData &&
-                    (FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
+                    (FirebaseAuth.instance.currentUser?.emailVerified ??
+                        false)) {
                   return const HomeScreen();
                 } else {
                   return LoginScreen();
