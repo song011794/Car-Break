@@ -3,3 +3,5 @@ build/
 .gitmessage.txt
 .env
 lib/firebase_options.dart
+linux/
+macos/
