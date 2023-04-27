@@ -6,3 +6,4 @@ lib/firebase_options.dart
 linux/
 macos/
 web/
+windows/
