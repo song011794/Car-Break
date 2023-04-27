@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:uuid/uuid.dart';
@@ -175,7 +175,7 @@ class LoginController extends GetxController {
         'state': clientState,
       });
 
-      final result = await FlutterWebAuth.authenticate(
+      final result = await FlutterWebAuth2.authenticate(
           url: url.toString(), callbackUrlScheme: "webauthcallback");
       final body = Uri.parse(result).queryParameters;
 
@@ -217,7 +217,7 @@ class LoginController extends GetxController {
         'state': clientState,
       });
 
-      final result = await FlutterWebAuth.authenticate(
+      final result = await FlutterWebAuth2.authenticate(
           url: url.toString(), callbackUrlScheme: "webauthcallback");
       final body = Uri.parse(result).queryParameters;
 
