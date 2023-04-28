@@ -44,7 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
   Widget drawerLogout() => ListTile(
-        title: Text('sing_out'.tr),
+        title: Text(
+          'sing_out'.tr,
+        ),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
           CustomDialog().showOkCancel(

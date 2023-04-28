@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vehicle/controller/sign_in_controller.dart';
 import 'package:vehicle/lib_color_schemes.g.dart';
 import 'package:vehicle/screen/home_screen.dart';
@@ -19,6 +22,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('lib/fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
+
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   runApp(const MyApp());
 }
@@ -34,8 +43,14 @@ class MyApp extends StatelessWidget {
     });
 
     return GetMaterialApp(
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          fontFamily: 'NotoSansKR'),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
+          fontFamily: 'NotoSansKR'),
       themeMode: ThemeMode.system,
       translations: Messages(),
       locale: const Locale('ko', 'KR'),
