@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:vehicle/controller/sign_in_controller.dart';
 import 'package:vehicle/lib_color_schemes.g.dart';
 import 'package:vehicle/screen/home_screen.dart';
@@ -22,13 +21,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('lib/fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-  });
-
-  GoogleFonts.config.allowRuntimeFetching = false;
-
   runApp(const MyApp());
 }
 
@@ -40,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await PermissionHandler().requestPermission();
-    });
+    });    
 
     return GetMaterialApp(
       theme: ThemeData(

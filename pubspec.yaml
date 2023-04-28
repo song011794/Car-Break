@@ -65,7 +65,6 @@ dependencies:
   permission_handler: ^10.2.0
   app_settings: ^4.2.0
   flutter_web_auth_2: ^2.1.4
-  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:
@@ -102,7 +101,7 @@ flutter:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
-  # For details regarding adding assets from package dependencies, see
+  # For details regarding adding assets from package dependencies, see 
   # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,
@@ -129,7 +128,7 @@ flutter:
           weight: 300
 
         - asset: lib/fonts/NotoSansKR-Thin.otf
-          weight: 100    
+          weight: 100
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

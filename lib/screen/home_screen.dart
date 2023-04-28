@@ -46,8 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget drawerLogout() => ListTile(
         title: Text(
           'sing_out'.tr,
+          style: const TextStyle(fontWeight: FontWeight.w500),
         ),
-        trailing: const Icon(Icons.arrow_forward_ios),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.black,
+        ),
         onTap: () {
           CustomDialog().showOkCancel(
               title: 'sing_out'.tr,
@@ -57,7 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 
   Widget drawerMapType() => ListTile(
-        title: Text('map_type'.tr),
+        title: Text(
+          'map_type'.tr,
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
         trailing: ObxValue(
             (data) => ToggleButtons(
                 borderRadius: const BorderRadius.all(Radius.circular(25.0)),
@@ -89,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             initialCameraPosition: _seoulCitiHall,
             onMapCreated: (GoogleMapController mapController) =>
                 controller.mapController.complete(mapController),
-            // onCameraIdle: controller.onCameraIdle,
+            onCameraIdle: controller.onCameraIdle,
             markers: Set<Marker>.of(controller.allMarkers)),
       ),
       floatingActionButton: FloatingActionButton(
