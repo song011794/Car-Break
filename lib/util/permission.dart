@@ -1,6 +1,6 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:app_settings/app_settings.dart';
 import 'package:vehicle/util/custom_dialog.dart';
 
 class PermissionHandler {
@@ -20,7 +20,7 @@ class PermissionHandler {
           title: 'permission_request'.tr,
           content: 'Please_allow_location_permission'.tr,
           onOk: () {
-            AppSettings.openLocationSettings();
+            Geolocator.openLocationSettings();
           });
     }
   }

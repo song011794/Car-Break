@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vehicle/controller/home_controller.dart';
+import 'package:vehicle/util/custom_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,7 +45,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget drawerLogout() => ListTile(
         title: Text('sing_out'.tr),
-        onTap: () => controller.onSignOut(),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          CustomDialog().showOkCancel(
+              title: 'sing_out'.tr,
+              content: 'Are_you_sure_you_want_to_log_out'.tr,
+              onOk: controller.onSignOut);
+        },
+      );
+
+  Widget drawerMapType() => ListTile(
+        title: Text('map_type'.tr),
+        trailing: ObxValue(
+            (data) => ToggleButtons(
+                borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+                constraints: const BoxConstraints(minHeight: 35, minWidth: 50),
+                isSelected: data,
+                onPressed: controller.onMapTypeChanged,
+                children: [Text('normal'.tr), Text('satellite'.tr)]),
+            controller.mapTypeToggleSelected),
       );
 
   @override
@@ -51,16 +71,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(),
       drawer: Drawer(
-          child: ListView(children: [drawerUserHeader(), drawerLogout()])),
+          child: ListView(children: [
+        drawerUserHeader(),
+        drawerMapType(),
+        drawerLogout(),
+      ])),
       body: Obx(
         () => GoogleMap(
+            mapType: controller.mapTypeToggleSelected[0]
+                ? MapType.normal
+                : MapType.satellite,
+            myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
             minMaxZoomPreference: const MinMaxZoomPreference(12, 15),
-            mapType: MapType.normal,
             initialCameraPosition: _seoulCitiHall,
             onMapCreated: (GoogleMapController mapController) =>
                 controller.mapController.complete(mapController),
-            onCameraIdle:  controller.onCameraIdle,
+            // onCameraIdle: controller.onCameraIdle,
             markers: Set<Marker>.of(controller.allMarkers)),
       ),
       floatingActionButton: FloatingActionButton(

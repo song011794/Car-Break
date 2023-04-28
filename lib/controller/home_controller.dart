@@ -22,6 +22,8 @@ class HomeController extends GetxController {
 
   List<Marker> allMarkers = <Marker>[].obs;
 
+  RxList<bool> mapTypeToggleSelected = <bool>[true, false].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -135,5 +137,16 @@ class HomeController extends GetxController {
     await GoogleSignIn().disconnect();
     // await FirebaseAuth.instance.currentUser?.unlink('google.com');
   }
-  
+
+  void onMapTypeChanged(int index) {
+    var tmpList = List.generate(mapTypeToggleSelected.length, (i) {
+      if (index == i) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    mapTypeToggleSelected(tmpList);
+  }
 }

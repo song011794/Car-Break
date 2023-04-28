@@ -28,9 +28,14 @@ class Messages extends Translations {
           'send_verification_mail_infomation':
               "'인증 메일 보내기' 버튼을 클릭해주세요.\n받은 메일의 링크를 클릭하여 가입 완료해주세요.",
           'ok': '확인',
+          'cancel': '취소',
           'verification_email_has_been_sent': '인증 메일을 보냈습니다. \n메일을 확인해주세요.',
           'permission_request': '권한 요청',
-          'Please_allow_location_permission' : '위치 권한을 허용해주세요',
+          'Please_allow_location_permission': '위치 권한을 허용해주세요',
+          'Are_you_sure_you_want_to_log_out': '정말 로그아웃 하시겠습니까?',
+          'normal': '일반',
+          'satellite': '위성',
+          'map_type' : '지도 타입'
         },
         'de_DE': {
           'hello': 'Hallo Welt',

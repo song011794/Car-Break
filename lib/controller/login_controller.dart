@@ -238,6 +238,7 @@ class LoginController extends GetxController {
       await FirebaseAuth.instance.signInWithCustomToken(response.body);
       await SecretStorage().saveAccessToken(bodys['access_token']);
     } catch (e) {
+      print(e.toString());
       await SecretStorage().saveLoginType(null);
       return false;
     }

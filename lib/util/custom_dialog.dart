@@ -87,18 +87,93 @@ class CustomDialog {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-          // actions: <Widget>[
-          //   MaterialButton(
-          //     child: Text("ok".tr),
-          //     onPressed: () {
-          //       if (onOk != null) {
-          //         onOk();
-          //       } else {
-          //         Get.back();
-          //       }
-          //     },
-          //   )
-          // ],
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  void showOkCancel(
+      {required String title,
+      required String content,
+      required VoidCallback? onOk}) {
+    Get.dialog(
+      WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: const BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
+            ),
+            child: Text(
+              title.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          titlePadding: const EdgeInsets.only(left: 0, right: 0, bottom: 10),
+          contentPadding: const EdgeInsets.only(
+            left: 0,
+            right: 0,
+            top: 10,
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(content.tr, textAlign: TextAlign.center),
+                SizedBox(
+                  height: 50.h,
+                ),
+                Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                  ),
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          child: Text("ok".tr),
+                          onPressed: () {
+                            if (onOk != null) {
+                              onOk();
+                            } else {
+                              Get.back();
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 30.w,
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: Get.back,
+                          child: Text("cancel".tr),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
         ),
       ),
       barrierDismissible: false,
