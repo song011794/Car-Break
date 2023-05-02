@@ -8,6 +8,7 @@ part of 'coordinate_model.dart';
 
 _$_CoordinateModel _$$_CoordinateModelFromJson(Map<String, dynamic> json) =>
     _$_CoordinateModel(
+      prkplceNm: json['prkplceNm'] as String,
       prkplceNo: json['prkplceNo'] as String,
       rdnmadr: json['rdnmadr'] as String?,
       lnmadr: json['lnmadr'] as String?,
@@ -31,6 +32,7 @@ _$_CoordinateModel _$$_CoordinateModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_CoordinateModelToJson(_$_CoordinateModel instance) =>
     <String, dynamic>{
+      'prkplceNm': instance.prkplceNm,
       'prkplceNo': instance.prkplceNo,
       'rdnmadr': instance.rdnmadr,
       'lnmadr': instance.lnmadr,

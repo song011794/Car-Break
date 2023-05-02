@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/coordinate_model.dart';
 import '../repository/home_repository.dart';
+import '../util/custom_dialog.dart';
 import '../util/secure_storage.dart';
 
 class HomeController extends GetxController {
@@ -25,6 +26,8 @@ class HomeController extends GetxController {
   RxList<Marker> allMarkers = <Marker>[].obs;
 
   RxList<bool> mapTypeToggleSelected = <bool>[true, false].obs;
+
+  RxList<CoordinateModel> coordinateDataList = <CoordinateModel>[].obs;
 
   @override
   void onInit() {
@@ -51,15 +54,14 @@ class HomeController extends GetxController {
 
   void onCameraIdle() {
     mapController.future.then((mapController) async {
-      LatLngBounds latLngBounds = await mapController.getVisibleRegion();
-
-      findByCoordinate(latLngBounds);
+      Future.delayed(const Duration(milliseconds: 200), () async {
+        LatLngBounds latLngBounds = await mapController.getVisibleRegion();
+        findByCoordinate(latLngBounds);
+      });
     });
   }
 
   void findByCoordinate(LatLngBounds latLngBounds) async {
-    // allMarkers.clear();
-
     final res = await homeRepository.findByCoordinate({
       'latitude_bound': [
         latLngBounds.southwest.latitude.abs(),
@@ -71,14 +73,24 @@ class HomeController extends GetxController {
       ]
     });
 
-    final dataList =
+    List dataList =
         res.body.map((data) => CoordinateModel.fromJson(data)).toList();
+
+    coordinateDataList(dataList
+        .where((element) =>
+            (element is CoordinateModel) &&
+            (element.latitude != null) &&
+            element.longitude != null)
+        .cast<CoordinateModel>()
+        .toList());
 
     List<Marker> tempMarker = [];
 
-    for (CoordinateModel coordinateModel in dataList) {
+    for (CoordinateModel coordinateModel in coordinateDataList
+        // dataList
+        ) {
       tempMarker.add(Marker(
-          infoWindow: InfoWindow(title: 'title', snippet: 'snippet'),
+          infoWindow: InfoWindow(title: 'title\ntitle2', snippet: 'snippet2'),
           markerId: MarkerId(coordinateModel.prkplceNo),
           position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
               double.parse(coordinateModel.longitude ?? '0'))));
@@ -93,37 +105,40 @@ class HomeController extends GetxController {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
-      await mapController.animateCamera(    
-          CameraUpdate.newLatLngZoom(
-            LatLng(position.latitude, position.longitude), 14.5)
-          );
+      await mapController.animateCamera(CameraUpdate.newLatLngZoom(
+          LatLng(position.latitude, position.longitude), 14.5));
     });
   }
 
-  void onSignOut() async {
-    String? accessToken = await SecretStorage().readAccessToken();
-    String? loginType = await SecretStorage().readLoginType();
+  Future<bool> onSignOut() async {
+    CustomDialog().showLoading();
+   
+      String? accessToken = await SecretStorage().readAccessToken();
+      String? loginType = await SecretStorage().readLoginType();
 
-    if (loginType != null) {
-      // SNS 로그아웃
-      if (accessToken != null) {
-        if (loginType == 'naver') {
-          await naverLogOut(accessToken);
-        } else if (loginType == 'kakao') {
-          await kakaoLogOut(accessToken);
+      if (loginType != null) {
+        // SNS 로그아웃
+        if (accessToken != null) {
+          if (loginType == 'naver') {
+            await naverLogOut(accessToken);
+          } else if (loginType == 'kakao') {
+            await kakaoLogOut(accessToken);
+          }
+        }
+
+        // Email, Google 로그아웃
+        if (loginType == 'email') {
+          // await naverLogOut(accessToken);
+        } else if (loginType == 'google') {
+          await googleLogOut();
         }
       }
 
-      // Email, Google 로그아웃
-      if (loginType == 'email') {
-        // await naverLogOut(accessToken);
-      } else if (loginType == 'google') {
-        await googleLogOut();
-      }
-    }
-
-    FirebaseAuth.instance.signOut();
-    Get.offAllNamed('/login');
+      FirebaseAuth.instance.signOut();
+   
+      Navigator.of(Get.overlayContext!).pop();
+    
+    return true;
   }
 
   Future<void> kakaoLogOut(String accessToken) async {

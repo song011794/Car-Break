@@ -56,7 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
           CustomDialog().showOkCancel(
               title: 'sing_out'.tr,
               content: 'Are_you_sure_you_want_to_log_out'.tr,
-              onOk: controller.onSignOut);
+              onOk: () async {
+              
+                if (!await controller.onSignOut()) {
+                  
+                }
+
+              });
         },
       );
 
@@ -85,24 +91,51 @@ class _HomeScreenState extends State<HomeScreen> {
         drawerMapType(),
         drawerLogout(),
       ])),
-      body: Obx(
-        () => GoogleMap(
-            mapType: controller.mapTypeToggleSelected[0]
-                ? MapType.normal
-                : MapType.satellite,                
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
-            minMaxZoomPreference: const MinMaxZoomPreference(12, 15),
-            initialCameraPosition: _seoulCitiHall,
-            onMapCreated: (GoogleMapController mapController) =>
-                controller.mapController.complete(mapController),
-            onCameraIdle: controller.onCameraIdle,
-            markers: Set<Marker>.of(controller.allMarkers)),
+      body: Column(
+        children: [
+          Expanded(
+            child: Obx(
+              () => Scaffold(
+                body: GoogleMap(
+                    mapType: controller.mapTypeToggleSelected[0]
+                        ? MapType.normal
+                        : MapType.satellite,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    minMaxZoomPreference: const MinMaxZoomPreference(12, 15),
+                    initialCameraPosition: _seoulCitiHall,
+                    onMapCreated: (GoogleMapController mapController) =>
+                        controller.mapController.complete(mapController),
+                    onCameraIdle: controller.onCameraIdle,
+                    markers: Set<Marker>.of(controller.allMarkers)),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: controller.goToCurrentPosition,
+                  child: const Icon(Icons.location_searching),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+              child: Obx(
+            () => ListView.builder(
+                itemCount: controller.coordinateDataList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      controller.coordinateDataList.elementAt(index).prkplceNm,
+                    ),
+                    subtitle: Text(
+                      controller.coordinateDataList.elementAt(index).rdnmadr!,
+                    ),
+                  );
+                }),
+          )),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: controller.goToCurrentPosition,
-        child: const Icon(Icons.location_searching),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: controller.goToCurrentPosition,
+      //   child: const Icon(Icons.location_searching),
+      // ),
     );
   }
 }

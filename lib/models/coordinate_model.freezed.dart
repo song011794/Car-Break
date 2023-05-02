@@ -20,6 +20,7 @@ CoordinateModel _$CoordinateModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CoordinateModel {
+  String get prkplceNm => throw _privateConstructorUsedError;
   String get prkplceNo => throw _privateConstructorUsedError;
   String? get rdnmadr => throw _privateConstructorUsedError;
   String? get lnmadr => throw _privateConstructorUsedError;
@@ -53,7 +54,8 @@ abstract class $CoordinateModelCopyWith<$Res> {
       _$CoordinateModelCopyWithImpl<$Res, CoordinateModel>;
   @useResult
   $Res call(
-      {String prkplceNo,
+      {String prkplceNm,
+      String prkplceNo,
       String? rdnmadr,
       String? lnmadr,
       String? enforceSe,
@@ -87,6 +89,7 @@ class _$CoordinateModelCopyWithImpl<$Res, $Val extends CoordinateModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? prkplceNm = null,
     Object? prkplceNo = null,
     Object? rdnmadr = freezed,
     Object? lnmadr = freezed,
@@ -108,6 +111,10 @@ class _$CoordinateModelCopyWithImpl<$Res, $Val extends CoordinateModel>
     Object? longitude = freezed,
   }) {
     return _then(_value.copyWith(
+      prkplceNm: null == prkplceNm
+          ? _value.prkplceNm
+          : prkplceNm // ignore: cast_nullable_to_non_nullable
+              as String,
       prkplceNo: null == prkplceNo
           ? _value.prkplceNo
           : prkplceNo // ignore: cast_nullable_to_non_nullable
@@ -197,7 +204,8 @@ abstract class _$$_CoordinateModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String prkplceNo,
+      {String prkplceNm,
+      String prkplceNo,
       String? rdnmadr,
       String? lnmadr,
       String? enforceSe,
@@ -229,6 +237,7 @@ class __$$_CoordinateModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? prkplceNm = null,
     Object? prkplceNo = null,
     Object? rdnmadr = freezed,
     Object? lnmadr = freezed,
@@ -250,6 +259,10 @@ class __$$_CoordinateModelCopyWithImpl<$Res>
     Object? longitude = freezed,
   }) {
     return _then(_$_CoordinateModel(
+      prkplceNm: null == prkplceNm
+          ? _value.prkplceNm
+          : prkplceNm // ignore: cast_nullable_to_non_nullable
+              as String,
       prkplceNo: null == prkplceNo
           ? _value.prkplceNo
           : prkplceNo // ignore: cast_nullable_to_non_nullable
@@ -336,7 +349,8 @@ class _$_CoordinateModel
     with DiagnosticableTreeMixin
     implements _CoordinateModel {
   const _$_CoordinateModel(
-      {required this.prkplceNo,
+      {required this.prkplceNm,
+      required this.prkplceNo,
       required this.rdnmadr,
       required this.lnmadr,
       required this.enforceSe,
@@ -359,6 +373,8 @@ class _$_CoordinateModel
   factory _$_CoordinateModel.fromJson(Map<String, dynamic> json) =>
       _$$_CoordinateModelFromJson(json);
 
+  @override
+  final String prkplceNm;
   @override
   final String prkplceNo;
   @override
@@ -400,7 +416,7 @@ class _$_CoordinateModel
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CoordinateModel(prkplceNo: $prkplceNo, rdnmadr: $rdnmadr, lnmadr: $lnmadr, enforceSe: $enforceSe, operDay: $operDay, weekdayOperOpenHhmm: $weekdayOperOpenHhmm, weekdayOperColseHhmm: $weekdayOperColseHhmm, satOperOperOpenHhmm: $satOperOperOpenHhmm, satOperCloseHhmm: $satOperCloseHhmm, holidayOperOpenHhmm: $holidayOperOpenHhmm, holidayCloseOpenHhmm: $holidayCloseOpenHhmm, parkingchrgeInfo: $parkingchrgeInfo, basicTime: $basicTime, basicCharge: $basicCharge, addunitTime: $addunitTime, addunitCharge: $addunitCharge, metpay: $metpay, latitude: $latitude, longitude: $longitude)';
+    return 'CoordinateModel(prkplceNm: $prkplceNm, prkplceNo: $prkplceNo, rdnmadr: $rdnmadr, lnmadr: $lnmadr, enforceSe: $enforceSe, operDay: $operDay, weekdayOperOpenHhmm: $weekdayOperOpenHhmm, weekdayOperColseHhmm: $weekdayOperColseHhmm, satOperOperOpenHhmm: $satOperOperOpenHhmm, satOperCloseHhmm: $satOperCloseHhmm, holidayOperOpenHhmm: $holidayOperOpenHhmm, holidayCloseOpenHhmm: $holidayCloseOpenHhmm, parkingchrgeInfo: $parkingchrgeInfo, basicTime: $basicTime, basicCharge: $basicCharge, addunitTime: $addunitTime, addunitCharge: $addunitCharge, metpay: $metpay, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -408,6 +424,7 @@ class _$_CoordinateModel
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'CoordinateModel'))
+      ..add(DiagnosticsProperty('prkplceNm', prkplceNm))
       ..add(DiagnosticsProperty('prkplceNo', prkplceNo))
       ..add(DiagnosticsProperty('rdnmadr', rdnmadr))
       ..add(DiagnosticsProperty('lnmadr', lnmadr))
@@ -434,6 +451,8 @@ class _$_CoordinateModel
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CoordinateModel &&
+            (identical(other.prkplceNm, prkplceNm) ||
+                other.prkplceNm == prkplceNm) &&
             (identical(other.prkplceNo, prkplceNo) ||
                 other.prkplceNo == prkplceNo) &&
             (identical(other.rdnmadr, rdnmadr) || other.rdnmadr == rdnmadr) &&
@@ -474,6 +493,7 @@ class _$_CoordinateModel
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        prkplceNm,
         prkplceNo,
         rdnmadr,
         lnmadr,
@@ -511,7 +531,8 @@ class _$_CoordinateModel
 
 abstract class _CoordinateModel implements CoordinateModel {
   const factory _CoordinateModel(
-      {required final String prkplceNo,
+      {required final String prkplceNm,
+      required final String prkplceNo,
       required final String? rdnmadr,
       required final String? lnmadr,
       required final String? enforceSe,
@@ -534,6 +555,8 @@ abstract class _CoordinateModel implements CoordinateModel {
   factory _CoordinateModel.fromJson(Map<String, dynamic> json) =
       _$_CoordinateModel.fromJson;
 
+  @override
+  String get prkplceNm;
   @override
   String get prkplceNo;
   @override

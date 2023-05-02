@@ -7,6 +7,7 @@ part 'coordinate_model.g.dart';
 @freezed
 class CoordinateModel with _$CoordinateModel {
   /// 좌표 Bound 범위 내 데이터 결과 </br>
+  /// prkplceNm : 주차장명
   /// prkplceNo : 주차장관리번호 </br>
   /// rdnmadr : 소재지도로명주소 </br>
   /// lnmadr : 소재지지번주소 </br>
@@ -25,6 +26,7 @@ class CoordinateModel with _$CoordinateModel {
   /// addunitCharge : 주차단위요금 </br>
   /// metpay : 결제방법
   const factory CoordinateModel({
+    required String prkplceNm,
     required String prkplceNo,
     required String? rdnmadr,
     required String? lnmadr,
