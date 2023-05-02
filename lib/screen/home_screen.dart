@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         () => GoogleMap(
             mapType: controller.mapTypeToggleSelected[0]
                 ? MapType.normal
-                : MapType.satellite,
+                : MapType.satellite,                
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
             minMaxZoomPreference: const MinMaxZoomPreference(12, 15),

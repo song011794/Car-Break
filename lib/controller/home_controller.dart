@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -29,6 +31,7 @@ class HomeController extends GetxController {
     super.onInit();
 
     mapController.future.then((mapController) async {
+      changeMapMode(mapController);
       await Geolocator.requestPermission();
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low);
@@ -36,6 +39,14 @@ class HomeController extends GetxController {
       await mapController.animateCamera(CameraUpdate.newLatLng(
           LatLng(position.latitude, position.longitude)));
     });
+  }
+
+  void changeMapMode(GoogleMapController mapController) async {
+    ByteData byte = await rootBundle.load('lib/assets/map_style.json');
+    var list = byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes);
+    String jsonFile = utf8.decode(list);
+
+    mapController.setMapStyle(jsonFile);
   }
 
   void onCameraIdle() {
@@ -67,6 +78,7 @@ class HomeController extends GetxController {
 
     for (CoordinateModel coordinateModel in dataList) {
       tempMarker.add(Marker(
+          infoWindow: InfoWindow(title: 'title', snippet: 'snippet'),
           markerId: MarkerId(coordinateModel.prkplceNo),
           position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
               double.parse(coordinateModel.longitude ?? '0'))));
@@ -81,8 +93,10 @@ class HomeController extends GetxController {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
-      await mapController.animateCamera(CameraUpdate.newLatLng(
-          LatLng(position.latitude, position.longitude)));
+      await mapController.animateCamera(    
+          CameraUpdate.newLatLngZoom(
+            LatLng(position.latitude, position.longitude), 14.5)
+          );
     });
   }
 
