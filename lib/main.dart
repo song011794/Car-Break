@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  _initTmapAPI();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -27,6 +29,16 @@ void main() async {
     javaScriptAppKey: dotenv.get('KAKAO_JAVASCRIPT_KEY'),
   );
   runApp(const MyApp());
+}
+
+Future<void> _initTmapAPI() async {
+  try {
+    final String result =
+        await MethodChannel('mobile/parameters').invokeMethod('initTmapAPI');
+    print('initTmapAPI Result : ${result}');
+  } catch (e) {
+    print(e.toString());
+  }
 }
 
 class MyApp extends StatelessWidget {

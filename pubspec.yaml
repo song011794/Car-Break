@@ -71,6 +71,7 @@ dependencies:
 
   # KaKao  
   kakao_flutter_sdk: ^1.4.2
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:

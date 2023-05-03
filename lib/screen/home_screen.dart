@@ -128,7 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     trailing: IconButton(
                         onPressed: () {
-                          controller.goToNavgation(controller.coordinateDataList.elementAt(index));
+                          // controller.goToNavgation(controller.coordinateDataList.elementAt(index));
+                          controller.goToTmapNavgation(controller.coordinateDataList.elementAt(index));
                         },
                         icon: Icon(
                           Icons.assistant_navigation,

@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/coordinate_model.dart';
 import '../repository/home_repository.dart';
@@ -184,7 +185,7 @@ class HomeController extends GetxController {
     mapTypeToggleSelected(tmpList);
   }
 
-  void goToNavgation(CoordinateModel coordinateModel) async {  
+  void goToKaKaoNavgation(CoordinateModel coordinateModel) async {
     if (await NaviApi.instance.isKakaoNaviInstalled()) {
       // 카카오내비 앱으로 목적지 공유하기, WGS84 좌표계 사용
       await NaviApi.instance.shareDestination(
@@ -198,6 +199,30 @@ class HomeController extends GetxController {
     } else {
       // 카카오내비 설치 페이지로 이동
       launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
+    }
+  }
+
+  void goToTmapNavgation(CoordinateModel coordinateModel) async {
+    try {
+      final String result = await const MethodChannel('mobile/parameters')
+          .invokeMethod('isTmapApplicationInstalled');
+
+      if (result.isEmpty) {
+        String url =
+            'https://apis.openapi.sk.com/tmap/app/routes?appkey${dotenv.get("TMAP_API_KEY")}&name=${coordinateModel.rdnmadr ?? coordinateModel.lnmadr!}&lon=${coordinateModel.longitude}&lat=${coordinateModel.latitude}';
+
+        Uri mapUrl = Uri.parse(Uri.encodeFull(url));
+
+        if (await canLaunchUrl(mapUrl)) {
+          await launchUrl(mapUrl);
+        }
+      } else {
+        if (await canLaunchUrl(Uri.parse(result))) {
+          await launchUrl(Uri.parse(result));
+        }
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 }
