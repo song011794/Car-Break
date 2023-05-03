@@ -184,9 +184,7 @@ class HomeController extends GetxController {
     mapTypeToggleSelected(tmpList);
   }
 
-  void goToNavgation(CoordinateModel coordinateModel) async {
-    print(await KakaoSdk.origin);
-
+  void goToNavgation(CoordinateModel coordinateModel) async {  
     if (await NaviApi.instance.isKakaoNaviInstalled()) {
       // 카카오내비 앱으로 목적지 공유하기, WGS84 좌표계 사용
       await NaviApi.instance.shareDestination(
