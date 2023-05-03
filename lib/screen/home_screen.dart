@@ -57,11 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: 'sing_out'.tr,
               content: 'Are_you_sure_you_want_to_log_out'.tr,
               onOk: () async {
-              
-                if (!await controller.onSignOut()) {
-                  
-                }
-
+                if (!await controller.onSignOut()) {}
               });
         },
       );
@@ -125,17 +121,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller.coordinateDataList.elementAt(index).prkplceNm,
                     ),
                     subtitle: Text(
-                      controller.coordinateDataList.elementAt(index).rdnmadr!,
+                      controller.coordinateDataList.elementAt(index).rdnmadr ??
+                          controller.coordinateDataList
+                              .elementAt(index)
+                              .lnmadr!,
                     ),
+                    trailing: IconButton(
+                        onPressed: () {
+                          controller.goToNavgation(controller.coordinateDataList.elementAt(index));
+                        },
+                        icon: Icon(
+                          Icons.assistant_navigation,
+                          color: Colors.amber,
+                        )),
                   );
                 }),
           )),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: controller.goToCurrentPosition,
-      //   child: const Icon(Icons.location_searching),
-      // ),
     );
   }
 }

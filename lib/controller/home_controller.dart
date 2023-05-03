@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import '../models/coordinate_model.dart';
 import '../repository/home_repository.dart';
@@ -62,42 +63,45 @@ class HomeController extends GetxController {
   }
 
   void findByCoordinate(LatLngBounds latLngBounds) async {
-    final res = await homeRepository.findByCoordinate({
-      'latitude_bound': [
-        latLngBounds.southwest.latitude.abs(),
-        latLngBounds.northeast.latitude.abs()
-      ],
-      'longitude_bound': [
-        latLngBounds.southwest.longitude.abs(),
-        latLngBounds.northeast.longitude.abs()
-      ]
-    });
+    try {
+      final res = await homeRepository.findByCoordinate({
+        'latitude_bound': [
+          latLngBounds.southwest.latitude.abs(),
+          latLngBounds.northeast.latitude.abs()
+        ],
+        'longitude_bound': [
+          latLngBounds.southwest.longitude.abs(),
+          latLngBounds.northeast.longitude.abs()
+        ]
+      });
 
-    List dataList =
-        res.body.map((data) => CoordinateModel.fromJson(data)).toList();
+      List dataList =
+          res.body.map((data) => CoordinateModel.fromJson(data)).toList();
 
-    coordinateDataList(dataList
-        .where((element) =>
-            (element is CoordinateModel) &&
-            (element.latitude != null) &&
-            element.longitude != null)
-        .cast<CoordinateModel>()
-        .toList());
+      coordinateDataList(dataList
+          .where((element) =>
+              (element is CoordinateModel) &&
+              (element.latitude != null) &&
+              element.longitude != null)
+          .cast<CoordinateModel>()
+          .toList());
 
-    List<Marker> tempMarker = [];
+      List<Marker> tempMarker = [];
 
-    for (CoordinateModel coordinateModel in coordinateDataList
-        // dataList
-        ) {
-      tempMarker.add(Marker(
-          infoWindow: InfoWindow(title: 'title\ntitle2', snippet: 'snippet2'),
-          markerId: MarkerId(coordinateModel.prkplceNo),
-          position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
-              double.parse(coordinateModel.longitude ?? '0'))));
+      for (CoordinateModel coordinateModel in coordinateDataList
+          // dataList
+          ) {
+        tempMarker.add(Marker(
+            infoWindow: InfoWindow(title: 'title\ntitle2', snippet: 'snippet2'),
+            markerId: MarkerId(coordinateModel.prkplceNo),
+            position: LatLng(double.parse(coordinateModel.latitude ?? '0'),
+                double.parse(coordinateModel.longitude ?? '0'))));
+      }
+
+      allMarkers(tempMarker);
+    } catch (e) {
+      allMarkers([]);
     }
-
-    // allMarkers.addAll(tempMarker);
-    allMarkers(tempMarker);
   }
 
   void goToCurrentPosition() {
@@ -112,32 +116,32 @@ class HomeController extends GetxController {
 
   Future<bool> onSignOut() async {
     CustomDialog().showLoading();
-   
-      String? accessToken = await SecretStorage().readAccessToken();
-      String? loginType = await SecretStorage().readLoginType();
 
-      if (loginType != null) {
-        // SNS 로그아웃
-        if (accessToken != null) {
-          if (loginType == 'naver') {
-            await naverLogOut(accessToken);
-          } else if (loginType == 'kakao') {
-            await kakaoLogOut(accessToken);
-          }
-        }
+    String? accessToken = await SecretStorage().readAccessToken();
+    String? loginType = await SecretStorage().readLoginType();
 
-        // Email, Google 로그아웃
-        if (loginType == 'email') {
-          // await naverLogOut(accessToken);
-        } else if (loginType == 'google') {
-          await googleLogOut();
+    if (loginType != null) {
+      // SNS 로그아웃
+      if (accessToken != null) {
+        if (loginType == 'naver') {
+          await naverLogOut(accessToken);
+        } else if (loginType == 'kakao') {
+          await kakaoLogOut(accessToken);
         }
       }
 
-      FirebaseAuth.instance.signOut();
-   
-      Navigator.of(Get.overlayContext!).pop();
-    
+      // Email, Google 로그아웃
+      if (loginType == 'email') {
+        // await naverLogOut(accessToken);
+      } else if (loginType == 'google') {
+        await googleLogOut();
+      }
+    }
+
+    FirebaseAuth.instance.signOut();
+
+    Navigator.of(Get.overlayContext!).pop();
+
     return true;
   }
 
@@ -178,5 +182,24 @@ class HomeController extends GetxController {
     });
 
     mapTypeToggleSelected(tmpList);
+  }
+
+  void goToNavgation(CoordinateModel coordinateModel) async {
+    print(await KakaoSdk.origin);
+
+    if (await NaviApi.instance.isKakaoNaviInstalled()) {
+      // 카카오내비 앱으로 목적지 공유하기, WGS84 좌표계 사용
+      await NaviApi.instance.shareDestination(
+        destination: Location(
+            name: coordinateModel.rdnmadr ?? coordinateModel.lnmadr!,
+            x: coordinateModel.longitude!,
+            y: coordinateModel.latitude!),
+        // 좌표계 지정
+        option: NaviOption(coordType: CoordType.wgs84),
+      );
+    } else {
+      // 카카오내비 설치 페이지로 이동
+      launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
+    }
   }
 }

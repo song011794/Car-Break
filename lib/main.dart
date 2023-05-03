@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:vehicle/controller/sign_in_controller.dart';
 import 'package:vehicle/lib_color_schemes.g.dart';
 import 'package:vehicle/screen/home_screen.dart';
@@ -21,6 +20,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
+
+  // runApp() 호출 전 Kakao SDK 초기화
+  KakaoSdk.init(
+    nativeAppKey: dotenv.get('KAKAO_NATIVE_KEY'),
+    javaScriptAppKey: dotenv.get('KAKAO_JAVASCRIPT_KEY'),
+  );
   runApp(const MyApp());
 }
 
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await PermissionHandler().requestPermission();
-    });    
+    });
 
     return GetMaterialApp(
       theme: ThemeData(
