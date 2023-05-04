@@ -34,7 +34,7 @@ void main() async {
 Future<void> _initTmapAPI() async {
   try {
     final String result =
-        await MethodChannel('mobile/parameters').invokeMethod('initTmapAPI');
+        await const MethodChannel('mobile/parameters').invokeMethod('initTmapAPI');
     print('initTmapAPI Result : ${result}');
   } catch (e) {
     print(e.toString());

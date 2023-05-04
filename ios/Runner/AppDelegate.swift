@@ -24,7 +24,9 @@ import TMapSDK
           break;
 
       case "isTmapApplicationInstalled":
-          if(TMapApi.isTmapApplicationInstalled()){
+          var installed:Bool = TMapApi.isTmapApplicationInstalled()
+          
+          if(installed){
             result("")
           }else{
             let url = TMapApi.getTMapDownUrl()
@@ -46,4 +48,9 @@ import TMapSDK
     private func initTmapAPI(){
         TMapApi.setSKTMapAuthenticationWithDelegate(self, apiKey: Storage().tMapApiKey)
     }
+    
+    func SKTMapApikeySucceed() {
+      // TMapTapiDelegate를 통해 callback을 받음.
+          print("APIKEY 인증 성공")
+      }
 }
